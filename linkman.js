@@ -52,7 +52,7 @@ function addLink(e) {
 	var newLinkObj = {};
 	newLinkObj.text = LINKMAN.textField.value;
 	newLinkObj.url = LINKMAN.urlField.value;
-	newLinkObj.tags = LINKMAN.tagsField.value;
+	newLinkObj.tags = LINKMAN.tagsField.value.trim().toLowerCase(); //sanitize tags
 
 	if(newLinkObj.text && newLinkObj.url) {
 		
@@ -279,7 +279,7 @@ function displayLinks(ob) {
 	} else {
 		keys = Object.keys(ob);
 	}
-
+	// reverse to display newest first
 	keys.reverse();
 	if (keys.length > 0) {
 		
@@ -287,6 +287,7 @@ function displayLinks(ob) {
 			var linkDiv = createLinkDiv(keys[i]);
 			LINKMAN.result.appendChild(linkDiv);
 		}
+		clearLog();
 
 	} else{
 		LINKMAN.result.innerHTML = "No links yet";
@@ -371,7 +372,7 @@ function createLinkDiv(key) {
 		for (var i=0; i<2 && i < tagsArr.length; i += 1) {
 
 			var tagLink = document.createElement("a");
-			var tagLinkText = tagsArr[i].trim().toLowerCase();
+			var tagLinkText = tagsArr[i];
 			tagLink.appendChild(document.createTextNode(tagLinkText));
 			tagLink.href = "#";
 			tagLink.setAttribute("data-tag", tagLinkText);
