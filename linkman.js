@@ -14,7 +14,8 @@ var LINKMAN = {
 	allLinks: null,
 
 	edit : false,
-	editKey : null
+	editKey : null,
+	newInput:false
 };
 
 (function() {
@@ -29,8 +30,14 @@ var LINKMAN = {
 
 	LINKMAN.save.addEventListener("mouseup", addLink, false);
 	LINKMAN.clearStorage.addEventListener("mouseup", clearStorage, false);
+	// two event handlers on cancel with same event
 	LINKMAN.cancel.addEventListener("mouseup", cancelEdit, false);
+	LINKMAN.cancel.addEventListener("mouseup", cancelNewInput, false);
 	LINKMAN.restore.addEventListener("mouseup", restoreLinks, false);
+
+	for (var i=0; i< LINKMAN.allLinkInputs.length; i += 1) {
+		LINKMAN.allLinkInputs[i].addEventListener("input", setNewInput, false);
+	}
 
 	displayLinks(LINKMAN.allLinks);
 }());
@@ -48,21 +55,28 @@ function addLink(e) {
 
 	if(newLinkObj.text && newLinkObj.url) {
 		
+		newLinkObj.url = sanitizeURL(newLinkObj.url);
 		if (LINKMAN.edit) {
 			// if edit flag is set
 			LINKMAN.allLinks[LINKMAN.editKey] = newLinkObj;
 			//restore flags
 			LINKMAN.edit = false;
 			LINKMAN.editKey = null;
-			LINKMAN.cancel.classList.add("disabled");
 		} else {
 			// else make a new key 
 			LINKMAN.allLinks[Date.now()] = newLinkObj;
 		}
 
+		// disable cancel button
+		if (!LINKMAN.cancel.classList.contains("disabled")) {
+			LINKMAN.cancel.classList.add("disabled");
+		}
+		//remove newInput flag
+		LINKMAN.newInput = false;
 		updateStorage();
 		clearLog();
 		displayLinks(LINKMAN.allLinks);
+
 	} else {
 		LINKMAN.log.innerHTML = "please enter all fields";
 		return false;
@@ -76,8 +90,14 @@ function deleteLink(e) {
 	}
 
 	// don't allow delete if already editing some other link
+	// or adding a new one
 	if (LINKMAN.edit) {
-		LINKMAN.log.innerHTML = "Please complete/cancel edit first";
+		LINKMAN.log.innerHTML = "complete/cancel edit first";
+		return false;
+	}
+
+	if (LINKMAN.newInput) {
+		LINKMAN.log.innerHTML = "complete/cancel new input first";
 		return false;
 	}
 
@@ -95,6 +115,10 @@ function editLink(e) {
 		return false;
 	}
 	clearLog();
+	// if press edit after setting new input clear flag
+	if (LINKMAN.newInput) {
+		LINKMAN.newInput = false;
+	}
 
 	var key = this.getAttribute("data-key");
 	LINKMAN.textField.value = LINKMAN.allLinks[key].text;
@@ -102,7 +126,9 @@ function editLink(e) {
 	LINKMAN.tagsField.value = LINKMAN.allLinks[key].tags;
 
 	//Enable cancel button
-	LINKMAN.cancel.classList.remove("disabled");
+	if (LINKMAN.cancel.classList.contains("disabled")) {
+			LINKMAN.cancel.classList.remove("disabled");
+		}
 
 	// set edit flag true so that addLink can handle this case too
 	LINKMAN.edit = true; 
@@ -114,19 +140,50 @@ function cancelEdit(e) {
 	if (e.button !== 0) {
 		return false;
 	}
-
 	if(!LINKMAN.edit) {
 		return false;
 	}
-
+	console.log("cancel edit");
 	// clear input fields filled by editLink function and clear flags
 	clearInputFields();
 	LINKMAN.edit = false;
 	LINKMAN.editKey = null;
 
-	LINKMAN.cancel.classList.add("disabled");
+	if (!LINKMAN.cancel.classList.contains("disabled")){
+		LINKMAN.cancel.classList.add("disabled");
+	}
 	clearLog();
 	return false;
+}
+
+function cancelNewInput(e) {
+	
+	if (e.button !== 0) {
+		return false;
+	}
+
+	if (!LINKMAN.newInput) {
+		return false;
+	}
+	console.log("cancel new input");
+	//clear input fields and turn-off the flag
+	clearInputFields();
+	LINKMAN.newInput = false;
+	if (!LINKMAN.cancel.classList.contains("disabled")){
+		LINKMAN.cancel.classList.add("disabled");
+	}
+	clearLog();
+	return false;
+	
+}
+
+function setNewInput(e) {
+	// if input is inserted due to edits return
+	if (LINKMAN.edit) {
+		return false;
+	}
+	LINKMAN.cancel.classList.remove("disabled");
+	LINKMAN.newInput = true;
 }
 
 function fliterTag(e) {
@@ -213,6 +270,14 @@ function displayLinks(ob) {
 		LINKMAN.result.innerHTML = "No links yet";
 	}
 	
+}
+
+function sanitizeURL(url) {
+	var pattern = /^https?:\/\//;
+	if (!pattern.test(url)) {
+		url = "http://" + url;
+	}
+	return url;
 }
 
 function clearWrapper() {
