@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+	<meta charset="UTF-8">
+	<title>LinkMan</title>
+	<link href='http://fonts.googleapis.com/css?family=Raleway:300,400,500,600' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="linkman.css">
+</head>
+<body>
+	<div id="header">
+		<h1>LinkMan!</h1>
+		<p>Save, tag, filter and backup your links locally!</p>
+	</div>
+	<div id="content-wrapper">
+		
+		<div id="linkInputWrapper">
+			<input type="text" id="url" class="big pink" placeholder="enter complete URL">
+			<input type="text" id="text" placeholder="text which will be displayed"><input type = "text" id="tags" placeholder="maximum 2, comma seperated, tags">
+			<div id="input-field-controls">
+				<button id="save" class ="theme pink big">Save</button>
+				<button id="cancel" class= "theme pink big disabled">Cancel</button>
+			</div>
+		</div>
+		
+		<div id="result">
+		</div>
+
+	</div>
+	
+	<div id="footer">
+		<div class="footer-wrapper">
+			<a href="backup.html" id="backup" target="new" class="button theme pink">Backup</a>
+			<button id="restore" class="theme pink">Restore</button>
+			<div id="log" class="pink"></div>
+			<button id="clearStorage" class= "theme pink">Clear Storage</button>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="linkman.js"></script>
+</body>
+</html>

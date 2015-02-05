@@ -1,0 +1,324 @@
+/* color scheme*/
+/* 
+	basic font color: #7f8c8d ;
+	header background: #ecf0f1 ;
+
+	dark grey: #7f8c8d;(asbestos)
+	light grey: #bdc3c7;
+	very light grey: #ecf0f1(clouds);
+	
+	pink very dark: #F62459;
+	pink dark: #DB5A6B;
+	pink light: #F47983;
+	pink very light: #FFB3A7;
+*/
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body, input, button, h1{
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+	 box-sizing: border-box;
+}
+
+button, input{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+body{
+	color: #7f8c8d;
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+}
+
+a {
+	text-decoration: none;
+}
+
+/*---------------------------- main wrappers/header ----------------------------*/
+
+#header {
+	background-color: #ecf0f1;
+	height: 140px;
+	padding-top: 60px;
+}
+
+#header h1{
+	font-weight: 400;
+	font-size: 72px;
+	text-align: center;
+}
+#header p{
+	text-align: center;
+}
+
+#content-wrapper{
+	max-width: 1000px;
+	margin: 0 auto;
+	border: 0px solid black;
+	margin-top: 40px;
+}
+
+/*---------------------------- buttons ----------------------------*/
+
+button, a.button{
+	border-radius: 5px;
+	color: #7f8c8d;
+	padding: 5px 10px;
+
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+}
+
+button:active ,a.button:active{
+	padding-left: 11px;
+	padding-right: 9px;
+}
+
+button.control {
+	border: none;
+	font-size: 14px;
+	padding:3px 8px;
+	background-color: #ecf0f1;
+}
+
+button.control:hover {
+	background-color: #bdc3c7;
+	color: #ecf0f1;
+}
+
+button.control:active{
+	padding-left: 9px;
+	padding-right: 7px;
+	background-color: #bdc3c7;
+	box-shadow: inset 0px 0px 2px 0px rgba(127, 140, 141, 0.8);
+}
+
+button.theme, a.button.theme{
+	border:none;
+	font-size: 16px;
+	font-weight: 300;
+	padding: 6px 12px;
+}
+/* fix link--> 2px size difference
+   increase top/bottom padding by 1px
+*/
+a.button.theme{
+	padding: 7px 12px;
+}
+
+button.theme:active, a.button.theme:active{
+	padding-left: 13px;
+	padding-right: 11px;
+}
+
+button.theme.big{
+	border-radius: 10px;
+	font-weight: 400;
+	width:120px;
+	height: 50px;
+	font-size: 24px;
+}
+
+button.theme.big.disabled{
+	background-color: #ecf0f1;
+}
+button.theme.big.disabled:hover{
+	background-color: #ecf0f1;
+}
+button.theme.big.disabled:active{
+	padding:8px 12px;
+}
+/* the pink theme */
+
+button.theme.pink, a.button.theme.pink{
+	background-color: #F47983;
+	color:#fff;
+}
+button.theme.pink:hover, a.button.theme.pink:hover{
+	background-color: #DB5A6B;
+}
+button.theme.pink:active, a.button.theme.pink:active{
+	background-color: #F47983;
+}
+
+/*---------------------------- input fields ----------------------------*/
+ input {
+	border: 1px solid #7f8c8d;
+	height: 50px;
+	width: 50%;
+
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-size: 24px;
+	font-weight: 300;
+	color: #7f8c8d;
+	padding: 0px 40px;
+	border-radius: 10px;
+}
+
+/* fixing inner borders */
+ input:nth-child(2) {
+	
+	border-right: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px; 
+}
+
+ input:nth-child(3) {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px; 
+}
+
+ input:focus {
+	text-shadow: 0px 0px 2px rgba(127, 140, 141, 0.8);
+}
+
+ input.big{
+	height: 70px;
+	width: 100%;
+
+	font-size: 36px;
+	text-align: center;
+
+	border:none;
+	border-radius: 0px;
+	margin-bottom: 40px;
+}
+/* the pink theme */
+input.big.pink{
+	color: #F62459;
+	border-bottom: 2px solid #F47983;
+}
+
+input.big.pink:hover,
+input.big.pink:focus {
+	text-shadow: 0px 0px 1px rgba(246,36,89, 0.7);
+}
+
+#input-field-controls{
+	margin-top: 20px;
+	text-align: center;
+}
+
+/*---------------------------- RESULT DIV ----------------------------*/
+
+#result{
+	border:0px solid blue;
+	margin: 60px 0px 120px 0px;
+}
+
+div.link-div{
+	border: 0px solid green;
+	padding: 5px 20px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+div.link-div a{
+	text-decoration: none;
+	color: #7f8c8d;
+}
+
+div.link-div span{
+	float: right;
+}
+
+div.link-controls-div{
+	border:0px solid red;
+	margin-top: 5px;
+	/*to clear the control buttons float*/
+	overflow: auto;
+}
+
+div.link-controls-div button.control{
+	float: right;
+	margin-right: 5px;
+}
+
+div.link-controls-div a.tag{
+	margin-right: 5px;
+	border-radius: 5px;
+	padding: 2px 10px;
+	font-size: 14px;
+}
+
+/* pink theme */
+
+div.link-div.pink{
+	background-color: rgba(255,179,167, 0.3);
+}
+
+div.link-div.pink>a:first-child:hover{
+	color: #F62459;
+	font-weight: 400;
+	text-shadow: 0px 0px 1px rgba(246,36,89, 0.5);
+}
+
+div.link-div.pink a.tag{
+	border: 1px solid #FFB3A7;
+}
+
+div.link-div.pink a.tag:hover{
+	background-color: #FFB3A7;
+	color: #fff;
+}
+
+/*---------------------------- footer ----------------------------*/
+
+#footer{
+	background-color: #ecf0f1;
+	height: 60px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+#footer .footer-wrapper{
+	max-width: 1000px;
+	margin: 0 auto;
+	border: 0px solid black;
+	margin-top: 10px;
+
+	/*fix floats parent collapse*/
+	overflow: auto;
+
+	/* for centering the loggin div*/
+	text-align: center;
+}
+
+#footer button, #footer a.button{
+	float: left;
+	margin-right: 5px;
+}
+
+#footer button:last-of-type{
+	float: right;
+	margin-right: 0;
+}
+
+#log{
+	display: inline-block;
+	margin-top: 6px; /* equal to that of button theme*/
+	font-weight: 500;
+	font-size: 20px;
+}
+
+/* pink theme */
+#log.pink{
+	color: #F62459;
+}
+
+.clearfix:after{
+	content: ".";
+	visibility: hidden;
+	display: block;
+	height: 0;
+	clear: both;
+}
+	
