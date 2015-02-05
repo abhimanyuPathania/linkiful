@@ -15,7 +15,8 @@ var LINKMAN = {
 
 	edit : false,
 	editKey : null,
-	newInput:false
+	newInput:false,
+	reversed:false
 };
 
 (function() {
@@ -129,6 +130,8 @@ function editLink(e) {
 	if (LINKMAN.cancel.classList.contains("disabled")) {
 			LINKMAN.cancel.classList.remove("disabled");
 		}
+	// scroll to the input fields
+	window.scrollTo(0,200);
 
 	// set edit flag true so that addLink can handle this case too
 	LINKMAN.edit = true; 
@@ -193,7 +196,7 @@ function fliterTag(e) {
 	}
 
 	var tagName = this.getAttribute("data-tag");
-	var allKeys = Object.keys(LINKMAN.allLinks).reverse();
+	var allKeys = Object.keys(LINKMAN.allLinks);
 	var filteredKeys = allKeys.filter(function (v) {
 		var tags = LINKMAN.allLinks[v].tags;
 		if (tags.indexOf(tagName) != -1) {
@@ -204,6 +207,24 @@ function fliterTag(e) {
 	});
 	clearLog();
 	displayLinks(filteredKeys);
+}
+
+function sortDateReverse(e) {
+
+	if (e.button !== 0) {
+		return false;
+	}
+	var keys = Object.keys(LINKMAN.allLinks)
+	
+	if (!LINKMAN.reversed) {
+		displayLinks(keys.reverse());
+		LINKMAN.reversed = true;
+	}
+	else {
+		displayLinks(keys);
+		LINKMAN.reversed = false;
+	}
+
 }
 
 function restoreLinks(e) {
@@ -256,9 +277,10 @@ function displayLinks(ob) {
 	if (Array.isArray(ob)) {
 		keys = ob;
 	} else {
-		keys = Object.keys(ob).reverse();
+		keys = Object.keys(ob);
 	}
-	
+
+	keys.reverse();
 	if (keys.length > 0) {
 		
 		for(var i=0, len= keys.length; i<len; i += 1) {
@@ -321,6 +343,8 @@ function createLinkDiv(key) {
 	var dateArr = (new Date(parseInt(key, 10))).toDateString().split(" ");
 	var dateText = dateArr[2] + ", " + dateArr[1] + " " + dateArr[3];
 	dateSpan.appendChild(document.createTextNode(dateText));
+	dateSpan.classList.add("pink");
+	dateSpan.addEventListener("mouseup", sortDateReverse, false);
 	
 	var deleteControl = document.createElement("button");
 	deleteControl.setAttribute("data-key", key);
