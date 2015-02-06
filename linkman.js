@@ -202,7 +202,6 @@ function editLink(e) {
 			LINKMAN.cancel.classList.remove("disabled");
 		}
 	// scroll to the input fields and set focus on url field
-	window.scrollTo(0,200);
 	LINKMAN.urlField.focus();
 
 	// set edit flag true so that addLink can handle this case too
@@ -607,7 +606,9 @@ function createTrackTags () {
 	if (LINKMAN.trackTagsDiv.classList.contains("hidden")) {
 		LINKMAN.trackTagsDiv.classList.remove("hidden");
 	}
-	
+	var span = document.createElement("span");
+	span.appendChild(document.createTextNode("Tags filtered (click to remove):"))
+	LINKMAN.trackTagsDiv.appendChild(span)
 
 	for (var i=0; i< LINKMAN.tagsFiltered.length; i += 1) {
 		var trackTag = document.createElement("a");
@@ -615,6 +616,7 @@ function createTrackTags () {
 		trackTag.appendChild(document.createTextNode(trackTagText));
 		trackTag.setAttribute("data-tag", trackTagText);
 		trackTag.classList.add("tag");
+		trackTag.classList.add("pink");
 		trackTag.addEventListener("mouseup", removeTrackTag, false)
 
 		LINKMAN.trackTagsDiv.appendChild(trackTag);

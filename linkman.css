@@ -53,6 +53,7 @@ a {
 	font-size: 72px;
 	text-align: center;
 }
+
 #header p{
 	text-align: center;
 }
@@ -62,6 +63,12 @@ a {
 	margin: 0 auto;
 	border: 0px solid black;
 	margin-top: 40px;
+}
+
+/* pink theme */
+#header h1 span.pink{
+	color: #F47983;
+	text-shadow: 0px 0px 4px rgba(246,36,89, 0.6);
 }
 
 /*---------------------------- buttons ----------------------------*/
@@ -210,17 +217,25 @@ input.big.pink:focus {
 
 .hidden{
 	height: 0;
-	display: none;
+	visibility: hidden;
 }
 
 #trackTags{
-	border:1px solid black;
+	border:0px solid black;
 	height: 20px;
+	margin-top: 50px;
+	padding: 0px 20px;
 }
+
+#trackTags span{
+	margin-right: 10px;
+}
+
 
 #result{
 	border:0px solid blue;
-	margin: 60px 0px 120px 0px;
+	margin: 20px 0px 120px 0px;
+	 
 }
 
 div.link-div{
@@ -284,6 +299,19 @@ div.link-div.pink a.tag{
 div.link-div.pink a.tag:hover{
 	background-color: #FFB3A7;
 	color: #fff;
+}
+
+#trackTags a.pink {
+	color: #fff;
+	background-color: #FFB3A7;
+	border: 1px solid #F47983;
+
+}
+
+#trackTags a.pink:hover {
+	border: 1px solid #F47983;
+	color: #7f8c8d;
+	background-color: rgba(255,179,167, 0.3);
 }
 
 /*---------------------------- footer ----------------------------*/
