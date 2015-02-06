@@ -6,6 +6,7 @@ var LINKMAN = {
 	tagsField : document.querySelector("#tags"),
 	save : document.querySelector("#save"),
 	cancel : document.querySelector("#cancel"),
+	trackTagsDiv : document.querySelector("#trackTags"),
 	result: document.querySelector("#result"),
 	log: document.querySelector("#log"),
 	clearStorage : document.querySelector("#clearStorage"),
@@ -204,12 +205,53 @@ function filterTags(e) {
 	LINKMAN.filtered = true;
 	//if clicked tag already in tagsFiltered array- return
 	if (LINKMAN.tagsFiltered.indexOf(tagName) !== -1) {
-		return true;
+		return false;
 	} else {
 		//else push it
 		LINKMAN.tagsFiltered.push(tagName);
 	}
 	
+	var allKeys = Object.keys(LINKMAN.allLinks);
+	var filteredKeys = getFilterTagsKeys();
+	clearLog();
+	displayLinks(filteredKeys);
+	createTrackTags();
+}
+
+function removeTrackTag(e) {
+
+	if (e.button !== 0) {
+		return false;
+	}
+
+	var trackTagName = this.getAttribute("data-tag");
+	var trackTagIndex = LINKMAN.tagsFiltered.indexOf(trackTagName);
+	
+	if (!LINKMAN.filtered && trackTagIndex === -1) {
+		console.log("some flag or tag-name error");
+	}
+
+	LINKMAN.tagsFiltered.splice(trackTagIndex, 1);
+	if (LINKMAN.tagsFiltered.length === 0) {
+		
+		if (!LINKMAN.trackTagsDiv.classList.contains("hidden")) {
+			LINKMAN.trackTagsDiv.classList.add("hidden");
+		}
+		
+		displayLinks(LINKMAN.allLinks);
+		LINKMAN.filtered = false;
+
+	} else {
+		displayLinks(getFilterTagsKeys());
+		createTrackTags();
+	}
+
+
+
+}
+
+function getFilterTagsKeys() {
+
 	var allKeys = Object.keys(LINKMAN.allLinks);
 	var filteredKeys = allKeys.filter(function (v) {
 		
@@ -226,8 +268,8 @@ function filterTags(e) {
 		}
 		return check;
 	});
-	clearLog();
-	displayLinks(filteredKeys);
+
+	return filteredKeys;
 }
 
 function sortDateReverse(e) {
@@ -307,6 +349,7 @@ function displayLinks(ob) {
 	}
 	// reverse to display newest first
 	keys.reverse();
+
 	if (keys.length > 0) {
 		
 		for(var i=0, len= keys.length; i<len; i += 1) {
@@ -398,7 +441,7 @@ function createLinkDiv(key) {
 		for (var i=0; i<2 && i < tagsArr.length; i += 1) {
 
 			var tagLink = document.createElement("a");
-			var tagLinkText = tagsArr[i];
+			var tagLinkText = tagsArr[i].trim(); // to handel white spaces after commas
 			tagLink.appendChild(document.createTextNode(tagLinkText));
 			//tagLink.href = "#";
 			tagLink.setAttribute("data-tag", tagLinkText);
@@ -417,4 +460,25 @@ function createLinkDiv(key) {
 	mainDiv.appendChild(controlsDiv);
 
 	return mainDiv;
+}
+
+function createTrackTags () {
+	
+	LINKMAN.trackTagsDiv.innerHTML = "";
+	
+	if (LINKMAN.trackTagsDiv.classList.contains("hidden")) {
+		LINKMAN.trackTagsDiv.classList.remove("hidden");
+	}
+	
+
+	for (var i=0; i< LINKMAN.tagsFiltered.length; i += 1) {
+		var trackTag = document.createElement("a");
+		var trackTagText =LINKMAN.tagsFiltered[i];
+		trackTag.appendChild(document.createTextNode(trackTagText));
+		trackTag.setAttribute("data-tag", trackTagText);
+		trackTag.classList.add("tag");
+		trackTag.addEventListener("mouseup", removeTrackTag, false)
+
+		LINKMAN.trackTagsDiv.appendChild(trackTag);
+	}
 }

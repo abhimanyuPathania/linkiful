@@ -208,6 +208,16 @@ input.big.pink:focus {
 
 /*---------------------------- RESULT DIV ----------------------------*/
 
+.hidden{
+	height: 0;
+	display: none;
+}
+
+#trackTags{
+	border:1px solid black;
+	height: 20px;
+}
+
 #result{
 	border:0px solid blue;
 	margin: 60px 0px 120px 0px;
