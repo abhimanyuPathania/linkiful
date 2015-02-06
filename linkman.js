@@ -14,6 +14,7 @@ var LINKMAN = {
 	restore : document.querySelector("#restore"),
 	allLinks: null,
 
+	// LINKMAN app state flags
 	edit : false,
 	editKey : null,
 	newInput:false,
@@ -34,9 +35,11 @@ var LINKMAN = {
 
 	LINKMAN.save.addEventListener("mouseup", addLink, false);
 	LINKMAN.clearStorage.addEventListener("mouseup", clearStorage, false);
+
 	// two event handlers on cancel with same event
 	LINKMAN.cancel.addEventListener("mouseup", cancelEdit, false);
 	LINKMAN.cancel.addEventListener("mouseup", cancelNewInput, false);
+
 	LINKMAN.restore.addEventListener("mouseup", restoreLinks, false);
 
 	for (var i=0; i< LINKMAN.allLinkInputs.length; i += 1) {
@@ -57,7 +60,7 @@ function addLink(e) {
 	newLinkObj.url = LINKMAN.urlField.value;
 	newLinkObj.tags = LINKMAN.tagsField.value.trim().toLowerCase(); //sanitize tags
 
-	if(newLinkObj.text && newLinkObj.url) {
+	if(newLinkObj.text && newLinkObj.url && newLinkObj.tags) {
 		
 		newLinkObj.url = sanitizeURL(newLinkObj.url);
 		if (LINKMAN.edit) {
@@ -79,6 +82,37 @@ function addLink(e) {
 		LINKMAN.newInput = false;
 		updateStorage();
 		clearLog();
+
+		// to see if it's filtered and see if new tags have been 
+		// already set as filters
+		if (LINKMAN.filtered) {
+
+			var checkNewTags = false;
+			var newTagsArr = newLinkObj.tags.split(",");
+			for (var i=0; i< newTagsArr.length;i += 1) {
+
+				if (LINKMAN.tagsFiltered.indexOf(newTagsArr[i].trim()) !== -1) {
+
+					checkNewTags = true;
+					break;
+
+				}
+
+			}
+			console.log("checkNewTags2", checkNewTags);
+			if (checkNewTags) {
+				displayLinks(getFilterTagsKeys());
+				return false;
+			} else {
+				// if filtered but new tags are not in tagsFiltered array
+				LINKMAN.filtered = false;
+				LINKMAN.tagsFiltered = [];
+				if (!LINKMAN.trackTagsDiv.classList.contains("hidden")) {
+					LINKMAN.trackTagsDiv.classList.add("hidden");			
+				}			
+			}
+		}
+		// or display all
 		displayLinks(LINKMAN.allLinks);
 
 	} else {
@@ -95,7 +129,15 @@ function deleteLink(e) {
 
 	// don't allow delete if already editing some other link
 	// or adding a new one
-	if (LINKMAN.edit) {
+	var checkFlags = checkEditNewInputFlags();
+	if (typeof checkFlags === "string" && checkFlags !== true) {
+
+		LINKMAN.log.innerHTML = checkFlags;
+		return false;
+
+	}
+
+/*	if (LINKMAN.edit) {
 		LINKMAN.log.innerHTML = "complete/cancel edit first";
 		return false;
 	}
@@ -103,12 +145,31 @@ function deleteLink(e) {
 	if (LINKMAN.newInput) {
 		LINKMAN.log.innerHTML = "complete/cancel new input first";
 		return false;
-	}
+	}*/
 
 	var key = this.getAttribute("data-key");
+	var displayKeys;
 	delete LINKMAN.allLinks[key];
 	updateStorage();
-	displayLinks(LINKMAN.allLinks);
+	if (LINKMAN.filtered) {
+		displayKeys = getFilterTagsKeys();
+		
+		// if we delete all links in the current filters
+		//clear filtered flags and display all links
+		if (displayKeys.length === 0) {
+			displayKeys = LINKMAN.allLinks;
+			LINKMAN.filtered = false;
+			LINKMAN.tagsFiltered = [];
+			
+			if (!LINKMAN.trackTagsDiv.classList.contains("hidden")) {
+				LINKMAN.trackTagsDiv.classList.add("hidden");
+			}
+
+		}
+	} else {
+		displayKeys = LINKMAN.allLinks;
+	}
+	displayLinks(displayKeys);
 	clearLog();
 	return false;
 }
@@ -278,8 +339,15 @@ function sortDateReverse(e) {
 		return false;
 	}
 
-	var keys = Object.keys(LINKMAN.allLinks)
+	clearEditNewInputFlags();
+	var keys;
 	
+	if (LINKMAN.filtered) {
+		keys = getFilterTagsKeys();
+	} else{
+		keys = Object.keys(LINKMAN.allLinks);
+	}
+
 	if (!LINKMAN.reversed) {
 		displayLinks(keys.reverse());
 		LINKMAN.reversed = true;
@@ -319,6 +387,7 @@ function restoreLinks(e) {
 		}
 		localStorage.setItem("linkman", linkmanJson);
 		LINKMAN.allLinks = linkmanJsonParsed;
+		clearAllflags();
 		displayLinks(LINKMAN.allLinks);
 	} else {
 		return false;
@@ -335,6 +404,46 @@ function clearInputFields() {
 
 function clearLog() {
 	LINKMAN.log.innerHTML = "";
+}
+
+function clearAllflags() {
+	
+	LINKMAN.edit = false;
+	LINKMAN.editKey = null;
+	LINKMAN.newInput = false;
+	LINKMAN.reversed = false;
+	LINKMAN.filtered = false;
+	LINKMAN.tagsFiltered = [];
+
+}
+
+function checkEditNewInputFlags() {
+	
+	if (LINKMAN.edit === true && LINKMAN.newInput === true) {
+		console.log("strange edit/newInput BUG!! please check");
+	}
+
+	if (LINKMAN.edit === true) {
+		return "please complete/canel edit";
+	}
+
+	if (LINKMAN.newInput === true) {
+		return "please complete/canel newInput";
+	}
+	// return true only if both flags are clear
+	return true;
+
+}
+
+function clearEditNewInputFlags() {
+
+	LINKMAN.edit = false;
+	LINKMAN.newInput = false;
+	LINKMAN.editKey = null;
+
+	clearInputFields();
+	clearLog();
+
 }
 
 function displayLinks(ob) {
@@ -386,6 +495,7 @@ function clearStorage() {
 	if (check){
 		localStorage.removeItem("linkman");
 		LINKMAN.allLinks = {};
+		clearAllflags();
 		displayLinks(LINKMAN.allLinks);
 	} else{
 		return false;
