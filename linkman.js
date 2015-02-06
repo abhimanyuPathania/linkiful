@@ -16,7 +16,9 @@ var LINKMAN = {
 	edit : false,
 	editKey : null,
 	newInput:false,
-	reversed:false
+	reversed:false,
+	filtered:false,
+	tagsFiltered:[]
 };
 
 (function() {
@@ -130,8 +132,9 @@ function editLink(e) {
 	if (LINKMAN.cancel.classList.contains("disabled")) {
 			LINKMAN.cancel.classList.remove("disabled");
 		}
-	// scroll to the input fields
+	// scroll to the input fields and set focus on url field
 	window.scrollTo(0,200);
+	LINKMAN.urlField.focus();
 
 	// set edit flag true so that addLink can handle this case too
 	LINKMAN.edit = true; 
@@ -189,21 +192,39 @@ function setNewInput(e) {
 	LINKMAN.newInput = true;
 }
 
-function fliterTag(e) {
+function filterTags(e) {
 
 	if (e.button !== 0) {
 		return false;
 	}
 
 	var tagName = this.getAttribute("data-tag");
+
+	// set filtered flag
+	LINKMAN.filtered = true;
+	//if clicked tag already in tagsFiltered array- return
+	if (LINKMAN.tagsFiltered.indexOf(tagName) !== -1) {
+		return true;
+	} else {
+		//else push it
+		LINKMAN.tagsFiltered.push(tagName);
+	}
+	
 	var allKeys = Object.keys(LINKMAN.allLinks);
 	var filteredKeys = allKeys.filter(function (v) {
+		
 		var tags = LINKMAN.allLinks[v].tags;
-		if (tags.indexOf(tagName) != -1) {
-			return true;
-		} else {
-			return false;
+		var check = true;
+		
+		for (var i=0; i< LINKMAN.tagsFiltered.length; i += 1) {
+			
+			if (tags.indexOf(LINKMAN.tagsFiltered[i]) === -1) {
+				check = false;
+				break;
+			}
+
 		}
+		return check;
 	});
 	clearLog();
 	displayLinks(filteredKeys);
@@ -214,6 +235,7 @@ function sortDateReverse(e) {
 	if (e.button !== 0) {
 		return false;
 	}
+
 	var keys = Object.keys(LINKMAN.allLinks)
 	
 	if (!LINKMAN.reversed) {
@@ -223,6 +245,10 @@ function sortDateReverse(e) {
 	else {
 		displayLinks(keys);
 		LINKMAN.reversed = false;
+	}
+	// disable cancel just in case
+	if (!LINKMAN.cancel.classList.contains("disabled")){
+		LINKMAN.cancel.classList.add("disabled");
 	}
 
 }
@@ -374,10 +400,10 @@ function createLinkDiv(key) {
 			var tagLink = document.createElement("a");
 			var tagLinkText = tagsArr[i];
 			tagLink.appendChild(document.createTextNode(tagLinkText));
-			tagLink.href = "#";
+			//tagLink.href = "#";
 			tagLink.setAttribute("data-tag", tagLinkText);
 			tagLink.classList.add("tag");
-			tagLink.addEventListener("mouseup", fliterTag, false);
+			tagLink.addEventListener("mouseup", filterTags, false);
 			controlsDiv.appendChild(tagLink);
 
 		}
