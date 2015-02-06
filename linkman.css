@@ -47,13 +47,18 @@ a {
 	height: 140px;
 	padding-top: 60px;
 }
-
-#header h1{
+#header h1 a{
+	text-decoration: none;
+}
+#header h1 a{
+	color: #7f8c8d ;
 	font-weight: 400;
 	font-size: 72px;
+	
+}
+#header h1{
 	text-align: center;
 }
-
 #header p{
 	text-align: center;
 }
