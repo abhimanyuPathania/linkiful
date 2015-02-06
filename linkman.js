@@ -58,9 +58,9 @@ function addLink(e) {
 	var newLinkObj = {};
 	newLinkObj.text = LINKMAN.textField.value;
 	newLinkObj.url = LINKMAN.urlField.value;
-	newLinkObj.tags = LINKMAN.tagsField.value.trim().toLowerCase(); //sanitize tags
+	newLinkObj.tags = sanitizeTagString(LINKMAN.tagsField.value) || "no-tag";
 
-	if(newLinkObj.text && newLinkObj.url && newLinkObj.tags) {
+	if(newLinkObj.text && newLinkObj.url) {
 		
 		newLinkObj.url = sanitizeURL(newLinkObj.url);
 		if (LINKMAN.edit) {
@@ -91,7 +91,7 @@ function addLink(e) {
 			var newTagsArr = newLinkObj.tags.split(",");
 			for (var i=0; i< newTagsArr.length;i += 1) {
 
-				if (LINKMAN.tagsFiltered.indexOf(newTagsArr[i].trim()) !== -1) {
+				if (LINKMAN.tagsFiltered.indexOf(newTagsArr[i]) !== -1) {
 
 					checkNewTags = true;
 					break;
@@ -101,7 +101,9 @@ function addLink(e) {
 			}
 			console.log("checkNewTags2", checkNewTags);
 			if (checkNewTags) {
-				displayLinks(getFilterTagsKeys());
+
+				LINKMAN.reversed ? displayLinks(getFilterTagsKeys().reverse()) : displayLinks(getFilterTagsKeys());
+				//displayLinks(getFilterTagsKeys());
 				return false;
 			} else {
 				// if filtered but new tags are not in tagsFiltered array
@@ -112,8 +114,8 @@ function addLink(e) {
 				}			
 			}
 		}
-		// or display all
-		displayLinks(LINKMAN.allLinks);
+		// or display all // if reversed? keep reversed
+		LINKMAN.reversed ? displayLinks(Object.keys(LINKMAN.allLinks).reverse()) : displayLinks(LINKMAN.allLinks);
 
 	} else {
 		LINKMAN.log.innerHTML = "please enter all fields";
@@ -153,6 +155,11 @@ function deleteLink(e) {
 	updateStorage();
 	if (LINKMAN.filtered) {
 		displayKeys = getFilterTagsKeys();
+		
+		//if reversed stay reversed!!!
+		if (LINKMAN.reversed) {
+			displayKeys.reverse();
+		}
 		
 		// if we delete all links in the current filters
 		//clear filtered flags and display all links
@@ -481,6 +488,35 @@ function sanitizeURL(url) {
 	return url;
 }
 
+function sanitizeTagString(tags) {
+	var tagsArr = tags.split(",");
+
+	tagsArr.forEach(function(v,i,a) {
+
+	    a[i] = a[i].replace(/^\s+/, "");
+    	a[i] = a[i].replace(/\s+$/, "");
+	});
+	tagsArr = tagsArr.filter(function(v) {
+		//fliter also removes sparse arrays and result is always dense
+	   return v ? true:false;
+	});
+
+	return removeDuplicates(tagsArr).join(",").toLowerCase();
+}
+
+function removeDuplicates(arr) {
+    var seen = {};
+    arr = arr.filter(function(v) {
+       if (seen.hasOwnProperty(v)) {
+           return false;
+       } else {
+           seen[v] = true;
+           return true;
+       }
+    });
+    return arr
+}
+
 function clearWrapper() {
 	LINKMAN.result.innerHTML = "";
 }
@@ -540,20 +576,13 @@ function createLinkDiv(key) {
 	editControl.appendChild(document.createTextNode("Edit"));
 
 	var tags = LINKMAN.allLinks[key].tags;
-	var tagsArr = [];
+	var tagsArr = tags.split(",");
 	
-	if(tags) {
-		if (tags.indexOf(",") != -1) {
-			tagsArr = tags.split(",");
-		} else {
-			tagsArr.push(tags);
-		}
-		for (var i=0; i<2 && i < tagsArr.length; i += 1) {
+		for (var i=0; i<tagsArr.length; i += 1) {
 
 			var tagLink = document.createElement("a");
-			var tagLinkText = tagsArr[i].trim(); // to handel white spaces after commas
+			var tagLinkText = tagsArr[i];
 			tagLink.appendChild(document.createTextNode(tagLinkText));
-			//tagLink.href = "#";
 			tagLink.setAttribute("data-tag", tagLinkText);
 			tagLink.classList.add("tag");
 			tagLink.addEventListener("mouseup", filterTags, false);
@@ -561,7 +590,6 @@ function createLinkDiv(key) {
 
 		}
 
-	}
 	controlsDiv.appendChild(editControl);
 	controlsDiv.appendChild(deleteControl);
 
