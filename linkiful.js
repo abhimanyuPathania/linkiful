@@ -24,7 +24,9 @@ var LINKIFUL = {
 };
 
 (function() {
-	console.log("anon function");
+
+	//this is the only function that runs on document load
+	console.log("anon function"); // remove this
 	
 	var linkifulJSON = localStorage.getItem("linkiful");
 	if (linkifulJSON) {
@@ -48,6 +50,8 @@ var LINKIFUL = {
 
 	displayLinks(LINKIFUL.allLinks);
 }());
+
+// EVENT HANDLERS
 
 function addLink(e) {
 	
@@ -99,11 +103,9 @@ function addLink(e) {
 				}
 
 			}
-			console.log("checkNewTags2", checkNewTags);
 			if (checkNewTags) {
 
 				LINKIFUL.reversed ? displayLinks(getFilterTagsKeys().reverse()) : displayLinks(getFilterTagsKeys());
-				//displayLinks(getFilterTagsKeys());
 				return false;
 			} else {
 				// if filtered but new tags are not in tagsFiltered array
@@ -125,6 +127,7 @@ function addLink(e) {
 }
 
 function deleteLink(e) {
+
 	if (e.button !== 0) {
 		return false;
 	}
@@ -139,31 +142,22 @@ function deleteLink(e) {
 
 	}
 
-/*	if (LINKIFUL.edit) {
-		LINKIFUL.log.innerHTML = "complete/cancel edit first";
-		return false;
-	}
-
-	if (LINKIFUL.newInput) {
-		LINKIFUL.log.innerHTML = "complete/cancel new input first";
-		return false;
-	}*/
-
 	var key = this.getAttribute("data-key");
 	var displayKeys;
 	delete LINKIFUL.allLinks[key];
 	updateStorage();
+	
 	if (LINKIFUL.filtered) {
+
 		displayKeys = getFilterTagsKeys();
-		
 		//if reversed stay reversed!!!
 		if (LINKIFUL.reversed) {
 			displayKeys.reverse();
 		}
-		
 		// if we delete all links in the current filters
 		//clear filtered flags and display all links
 		if (displayKeys.length === 0) {
+
 			displayKeys = LINKIFUL.allLinks;
 			LINKIFUL.filtered = false;
 			LINKIFUL.tagsFiltered = [];
@@ -176,6 +170,7 @@ function deleteLink(e) {
 	} else {
 		displayKeys = LINKIFUL.allLinks;
 	}
+
 	displayLinks(displayKeys);
 	clearLog();
 	return false;
@@ -211,13 +206,15 @@ function editLink(e) {
 }
 
 function cancelEdit(e) {
+
 	if (e.button !== 0) {
 		return false;
 	}
+
 	if(!LINKIFUL.edit) {
 		return false;
 	}
-	console.log("cancel edit");
+
 	// clear input fields filled by editLink function and clear flags
 	clearInputFields();
 	LINKIFUL.edit = false;
@@ -239,8 +236,8 @@ function cancelNewInput(e) {
 	if (!LINKIFUL.newInput) {
 		return false;
 	}
-	console.log("cancel new input");
-	//clear input fields and turn-off the flag
+
+	//clear input fields and turn-off the flag, disable cancel
 	clearInputFields();
 	LINKIFUL.newInput = false;
 	if (!LINKIFUL.cancel.classList.contains("disabled")){
@@ -267,9 +264,9 @@ function filterTags(e) {
 	}
 
 	var tagName = this.getAttribute("data-tag");
-
 	// set filtered flag
 	LINKIFUL.filtered = true;
+
 	//if clicked tag already in tagsFiltered array- return
 	if (LINKIFUL.tagsFiltered.indexOf(tagName) !== -1) {
 		return false;
@@ -295,7 +292,7 @@ function removeTrackTag(e) {
 	var trackTagIndex = LINKIFUL.tagsFiltered.indexOf(trackTagName);
 	
 	if (!LINKIFUL.filtered && trackTagIndex === -1) {
-		console.log("some flag or tag-name error");
+		console.log("some flag or tag-name error"); //remove this later
 	}
 
 	LINKIFUL.tagsFiltered.splice(trackTagIndex, 1);
@@ -312,31 +309,6 @@ function removeTrackTag(e) {
 		displayLinks(getFilterTagsKeys());
 		createTrackTags();
 	}
-
-
-
-}
-
-function getFilterTagsKeys() {
-
-	var allKeys = Object.keys(LINKIFUL.allLinks);
-	var filteredKeys = allKeys.filter(function (v) {
-		
-		var tags = LINKIFUL.allLinks[v].tags;
-		var check = true;
-		
-		for (var i=0; i< LINKIFUL.tagsFiltered.length; i += 1) {
-			
-			if (tags.indexOf(LINKIFUL.tagsFiltered[i]) === -1) {
-				check = false;
-				break;
-			}
-
-		}
-		return check;
-	});
-
-	return filteredKeys;
 }
 
 function sortDateReverse(e) {
@@ -370,10 +342,13 @@ function sortDateReverse(e) {
 }
 
 function restoreLinks(e) {
+
 	if (e.button !== 0) {
 		return false;
 	}
+
 	clearLog();
+
 	var linkifulJson = prompt("Enter the saved text");
 	if (linkifulJson === null) {
 		return false;
@@ -381,76 +356,43 @@ function restoreLinks(e) {
 	if (linkifulJson === "") {
 		linkifulJson = JSON.stringify({});
 	}
+
 	var confirmRestore = confirm("Restore overwrites all existing links. Confirm?\n" 
 								+ "\nYou entered:\n" + linkifulJson + "\n\n");
-
 	if (confirmRestore) {
+
 		try {
 			var linkifulJsonParsed = JSON.parse(linkifulJson);
 		} catch(e) {
 			LINKIFUL.log.innerHTML = "invalid JSON entered";
 			return false;
 		}
+
 		localStorage.setItem("linkiful", linkifulJson);
 		LINKIFUL.allLinks = linkifulJsonParsed;
 		clearAllflags();
 		displayLinks(LINKIFUL.allLinks);
+
 	} else {
+		return false;
+	}
+}
+
+function clearStorage() {
+	clearLog();
+	var check = confirm("This will permanently delete all links.\nAre you sure?");
+	if (check){
+		localStorage.removeItem("linkiful");
+		LINKIFUL.allLinks = {};
+		clearAllflags();
+		displayLinks(LINKIFUL.allLinks);
+	} else{
 		return false;
 	}
 	
 }
 
-function clearInputFields() {
-	for(var i=0; i<LINKIFUL.allLinkInputs.length; i++) {
-		//clear input fields
-		LINKIFUL.allLinkInputs[i].value = "";
-	}
-}
-
-function clearLog() {
-	LINKIFUL.log.innerHTML = "";
-}
-
-function clearAllflags() {
-	
-	LINKIFUL.edit = false;
-	LINKIFUL.editKey = null;
-	LINKIFUL.newInput = false;
-	LINKIFUL.reversed = false;
-	LINKIFUL.filtered = false;
-	LINKIFUL.tagsFiltered = [];
-
-}
-
-function checkEditNewInputFlags() {
-	
-	if (LINKIFUL.edit === true && LINKIFUL.newInput === true) {
-		console.log("strange edit/newInput BUG!! please check");
-	}
-
-	if (LINKIFUL.edit === true) {
-		return "please complete/canel edit";
-	}
-
-	if (LINKIFUL.newInput === true) {
-		return "please complete/canel newInput";
-	}
-	// return true only if both flags are clear
-	return true;
-
-}
-
-function clearEditNewInputFlags() {
-
-	LINKIFUL.edit = false;
-	LINKIFUL.newInput = false;
-	LINKIFUL.editKey = null;
-
-	clearInputFields();
-	clearLog();
-
-}
+// EVENT HANDLER HELPER FUNCTIONS
 
 function displayLinks(ob) {
 	clearWrapper();
@@ -479,64 +421,86 @@ function displayLinks(ob) {
 	
 }
 
-function sanitizeURL(url) {
-	var pattern = /^https?:\/\//;
-	if (!pattern.test(url)) {
-		url = "http://" + url;
+function updateStorage() {
+	localStorage.setItem("linkiful", JSON.stringify(LINKIFUL.allLinks));
+}
+
+function getFilterTagsKeys() {
+
+	var allKeys = Object.keys(LINKIFUL.allLinks);
+	var filteredKeys = allKeys.filter(function (v) {
+		
+		var tags = LINKIFUL.allLinks[v].tags;
+		var check = true;
+		
+		for (var i=0; i< LINKIFUL.tagsFiltered.length; i += 1) {
+			
+			if (tags.indexOf(LINKIFUL.tagsFiltered[i]) === -1) {
+				check = false;
+				break;
+			}
+		}
+		return check;
+	});
+	return filteredKeys;
+}
+
+function checkEditNewInputFlags() {
+	
+	if (LINKIFUL.edit === true && LINKIFUL.newInput === true) {
+		console.log("strange edit/newInput BUG!! please check");
 	}
-	return url;
+
+	if (LINKIFUL.edit === true) {
+		return "please complete/canel edit";
+	}
+
+	if (LINKIFUL.newInput === true) {
+		return "please complete/canel newInput";
+	}
+	// return true only if both flags are clear
+	return true;
+
 }
 
-function sanitizeTagString(tags) {
-	var tagsArr = tags.split(",");
-
-	tagsArr.forEach(function(v,i,a) {
-
-	    a[i] = a[i].replace(/^\s+/, "");
-    	a[i] = a[i].replace(/\s+$/, "");
-	});
-	tagsArr = tagsArr.filter(function(v) {
-		//fliter also removes sparse arrays and result is always dense
-	   return v ? true:false;
-	});
-
-	return removeDuplicates(tagsArr).join(",").toLowerCase();
-}
-
-function removeDuplicates(arr) {
-    var seen = {};
-    arr = arr.filter(function(v) {
-       if (seen.hasOwnProperty(v)) {
-           return false;
-       } else {
-           seen[v] = true;
-           return true;
-       }
-    });
-    return arr
+function clearInputFields() {
+	for(var i=0; i<LINKIFUL.allLinkInputs.length; i++) {
+		//clear input fields
+		LINKIFUL.allLinkInputs[i].value = "";
+	}
 }
 
 function clearWrapper() {
 	LINKIFUL.result.innerHTML = "";
 }
 
-function updateStorage() {
-	localStorage.setItem("linkiful", JSON.stringify(LINKIFUL.allLinks));
+function clearLog() {
+	LINKIFUL.log.innerHTML = "";
 }
 
-function clearStorage() {
+function clearEditNewInputFlags() {
+
+	LINKIFUL.edit = false;
+	LINKIFUL.newInput = false;
+	LINKIFUL.editKey = null;
+
+	clearInputFields();
 	clearLog();
-	var check = confirm("This will permanently delete all links.\nAre you sure?");
-	if (check){
-		localStorage.removeItem("linkiful");
-		LINKIFUL.allLinks = {};
-		clearAllflags();
-		displayLinks(LINKIFUL.allLinks);
-	} else{
-		return false;
-	}
-	
+
 }
+
+function clearAllflags() {
+	
+	LINKIFUL.edit = false;
+	LINKIFUL.editKey = null;
+	LINKIFUL.newInput = false;
+	LINKIFUL.reversed = false;
+	LINKIFUL.filtered = false;
+	LINKIFUL.tagsFiltered = [];
+
+}
+
+// HTML GENERATING FUNCTIONS
 
 function createLinkDiv(key) {
 	
@@ -544,9 +508,13 @@ function createLinkDiv(key) {
 	mainDiv.classList.add("link-div")
 	mainDiv.classList.add("pink");
 
+	var contentDiv = document.createElement("div");
+	contentDiv.classList.add("clearfix2");
+	contentDiv.classList.add("content");
+
 	var controlsDiv = document.createElement("div");
 	controlsDiv.classList.add("link-controls-div");
-	//controlsDiv.classList.add("clearfix"); testing clearfix
+	controlsDiv.classList.add("clearfix1"); 
 	
 	var link = document.createElement("a");
 	var linkText = document.createTextNode(LINKIFUL.allLinks[key].text);
@@ -558,7 +526,6 @@ function createLinkDiv(key) {
 	var dateArr = (new Date(parseInt(key, 10))).toDateString().split(" ");
 	var dateText = dateArr[2] + ", " + dateArr[1] + " " + dateArr[3];
 	dateSpan.appendChild(document.createTextNode(dateText));
-	dateSpan.classList.add("pink");
 	dateSpan.addEventListener("mouseup", sortDateReverse, false);
 	
 	var deleteControl = document.createElement("button");
@@ -592,8 +559,9 @@ function createLinkDiv(key) {
 	controlsDiv.appendChild(editControl);
 	controlsDiv.appendChild(deleteControl);
 
-	mainDiv.appendChild(link);
-	mainDiv.appendChild(dateSpan);
+	contentDiv.appendChild(link);
+	contentDiv.appendChild(dateSpan);
+	mainDiv.appendChild(contentDiv);
 	mainDiv.appendChild(controlsDiv);
 
 	return mainDiv;
@@ -621,4 +589,46 @@ function createTrackTags () {
 
 		LINKIFUL.trackTagsDiv.appendChild(trackTag);
 	}
+}
+
+//GENERAL HELPER FUNCTIONS
+
+function sanitizeURL(url) {
+
+	var pattern = /^https?:\/\//;
+	if (!pattern.test(url)) {
+		url = "http://" + url;
+	}
+	return url;
+}
+
+function sanitizeTagString(tags) {
+
+	var tagsArr = tags.split(",");
+
+	tagsArr.forEach(function(v,i,a) {
+
+	    a[i] = a[i].replace(/^\s+/, "");
+    	a[i] = a[i].replace(/\s+$/, "");
+	});
+	tagsArr = tagsArr.filter(function(v) {
+		//fliter also removes sparse arrays and result is always dense
+	   return v ? true:false;
+	});
+
+	return removeDuplicates(tagsArr).join(",").toLowerCase();
+}
+
+function removeDuplicates(arr) {
+
+    var seen = {};
+    arr = arr.filter(function(v) {
+       if (seen.hasOwnProperty(v)) {
+           return false;
+       } else {
+           seen[v] = true;
+           return true;
+       }
+    });
+    return arr
 }

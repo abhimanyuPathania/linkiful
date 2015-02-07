@@ -27,9 +27,10 @@ body, input, button, h1{
 button, input{
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	outline: none; /*had to use in chrome*/
 }
 
-body{
+body, a, button, input{
 	color: #7f8c8d;
 	font-family: 'Raleway', Helvetica, Arial, sans-serif;
 	font-size: 18px;
@@ -43,18 +44,13 @@ a {
 /*---------------------------- main wrappers/header ----------------------------*/
 
 #header {
-	background-color: #ecf0f1;
 	height: 140px;
 	padding-top: 60px;
 }
+
 #header h1 a{
-	text-decoration: none;
-}
-#header h1 a{
-	color: #7f8c8d ;
 	font-weight: 400;
 	font-size: 72px;
-	
 }
 #header h1{
 	text-align: center;
@@ -66,10 +62,12 @@ a {
 #content-wrapper{
 	max-width: 1000px;
 	margin: 0 auto;
-	border: 0px solid black;
 	margin-top: 40px;
 }
-
+/*light theme*/
+#header.light {
+	background-color: #ecf0f1;
+}
 /* pink theme */
 #header h1 span.pink{
 	color: #F47983;
@@ -80,14 +78,11 @@ a {
 
 button, a.button{
 	border-radius: 5px;
-	color: #7f8c8d;
+	border:none;
 	padding: 5px 10px;
-
-	font-family: 'Raleway', Helvetica, Arial, sans-serif;
 	font-size: 16px;
-	font-weight: 300;
-
-	transition: background-color 0.2s ease;
+	-webkit-transition: background-color 0.3s ease-in-out;
+        	transition: background-color 0.3s ease-in-out;
 }
 
 button:active ,a.button:active{
@@ -96,13 +91,11 @@ button:active ,a.button:active{
 }
 
 button.control {
-	border: none;
 	font-size: 14px;
 	padding:3px 8px;
 	background-color: #ecf0f1;
-
-	transition: background-color 0.5s ease,
-				color 0.3s ease;
+	transition: background-color 0.3s ease-in-out,
+				color 0.3s ease-in-out;
 }
 
 button.control:hover {
@@ -111,23 +104,21 @@ button.control:hover {
 }
 
 button.control:active{
-	padding-left: 9px;
-	padding-right: 7px;
 	background-color: #bdc3c7;
-	box-shadow: inset 0px 0px 2px 0px rgba(127, 140, 141, 0.8);
 }
 
 button.theme, a.button.theme{
-	border:none;
-	font-size: 16px;
 	font-weight: 300;
 	padding: 6px 12px;
 }
-/* fix link--> 2px size difference
+
+/* fix link--> 2px size difference in firefox
    increase top/bottom padding by 1px
 */
-a.button.theme{
-	padding: 7px 12px;
+@-moz-document url-prefix() { 
+  a.button.theme {
+     padding: 7px 12px;
+  }
 }
 
 button.theme:active, a.button.theme:active{
@@ -154,14 +145,14 @@ button.theme.big.disabled:active{
 }
 /* the pink theme */
 
-button.theme.pink, a.button.theme.pink{
+button.pink, a.button.pink{
 	background-color: #F47983;
 	color:#fff;
 }
-button.theme.pink:hover, a.button.theme.pink:hover{
+button.pink:hover, a.button.pink:hover{
 	background-color: #DB5A6B;
 }
-button.theme.pink:active, a.button.theme.pink:active{
+button.pink:active, a.button.pink:active{
 	background-color: #F47983;
 }
 
@@ -170,11 +161,7 @@ button.theme.pink:active, a.button.theme.pink:active{
 	border: 1px solid #7f8c8d;
 	height: 50px;
 	width: 50%;
-
-	font-family: 'Raleway', Helvetica, Arial, sans-serif;
 	font-size: 24px;
-	font-weight: 300;
-	color: #7f8c8d;
 	padding: 0px 40px;
 	border-radius: 10px;
 }
@@ -213,6 +200,11 @@ input.big.pink{
 	border-bottom: 2px solid #F47983;
 }
 
+/* apply placeholder color for chrome since */
+input.big.pink::-webkit-input-placeholder{
+    color: #F62459;
+}
+
 input.big.pink:hover,
 input.big.pink:focus {
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.7);
@@ -231,7 +223,6 @@ input.big.pink:focus {
 }
 
 #trackTags{
-	border:0px solid black;
 	height: 20px;
 	margin-top: 50px;
 	padding: 0px 20px;
@@ -243,24 +234,21 @@ input.big.pink:focus {
 
 
 #result{
-	border:0px solid blue;
-	margin: 20px 0px 120px 0px;
-	 
+	margin: 20px 0px 120px 0px; 
 }
 
 div.link-div{
-	border: 0px solid green;
 	padding: 5px 20px;
 	margin-bottom: 10px;
 	border-radius: 10px;
 }
 
-div.link-div a{
+div.link-div .content a{
 	text-decoration: none;
-	color: #7f8c8d;
+	float: left;
 }
 
-div.link-div span{
+div.link-div .content span{
 	float: right; 
 }
 div.link-div span:hover{
@@ -268,10 +256,7 @@ div.link-div span:hover{
 }
 
 div.link-controls-div{
-	border:0px solid red;
 	margin-top: 5px;
-	/*to clear the control buttons float*/
-	overflow: auto;
 }
 
 div.link-controls-div button.control{
@@ -285,8 +270,10 @@ a.tag{
 	padding: 2px 10px;
 	font-size: 14px;
 
-	transition: background-color 0.5s ease,
-				color 0.3s ease;
+	-webkit-transition: background-color 0.3s ease-in-out,
+						color 0.3s ease-in-out;
+        	transition: background-color 0.3s ease-in-out,
+						color 0.3s ease-in-out;
 }
 
 a.tag:hover, a.tag:active, a.tag:focus{
@@ -300,15 +287,21 @@ div.link-div.pink{
 }
 
 
-div.link-div.pink > a:first-child, div.link-div span.pink{
-	transition: color 0.3s ease,
-				font-size 0.3s ease;
+div.link-div.pink .content a, div.link-div.pink .content span{
+	-webkit-transition: color 0.2s ease-in-out,
+						font-size 0.2s ease-in-out;
+        	transition: color 0.2s ease-in-out,
+						font-size 0.2s ease-in-out;
 }
 
-div.link-div.pink > a:first-child:hover, div.link-div span.pink:hover{
+div.link-div.pink .content a:hover, div.link-div .content span:hover{
 	color: #F62459;
 	font-size: 19px;
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.5);
+}
+
+div.link-div .content span:hover{
+	font-size: 18px;
 }
 
 div.link-div.pink a.tag{
@@ -348,11 +341,6 @@ div.link-div.pink a.tag:hover{
 	margin: 0 auto;
 	border: 0px solid black;
 	margin-top: 10px;
-
-	/*fix floats parent collapse*/
-	overflow: auto;
-
-	/* for centering the loggin div*/
 	text-align: center;
 }
 
@@ -369,7 +357,7 @@ div.link-div.pink a.tag:hover{
 #log{
 	display: inline-block;
 	margin-top: 6px; /* equal to that of button theme*/
-	font-weight: 500;
+	font-weight: 400;
 	font-size: 20px;
 }
 
@@ -378,10 +366,17 @@ div.link-div.pink a.tag:hover{
 	color: #F62459;
 }
 
-.clearfix:after{
+.clearfix1:after{
 	content: ".";
 	visibility: hidden;
 	display: block;
+	height: 0;
+	clear: both;
+}
+
+.clearfix2:after{
+	content: ".";
+	visibility: hidden;
 	height: 0;
 	clear: both;
 }
