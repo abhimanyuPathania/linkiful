@@ -596,8 +596,14 @@ function createTrackTags () {
 		LINKIFUL.trackTagsDiv.classList.remove("hidden");
 	}
 	var span = document.createElement("span");
-	span.appendChild(document.createTextNode("Tags filtered (click to remove):"))
-	LINKIFUL.trackTagsDiv.appendChild(span)
+	var spanText;
+	if (window.innerWidth < 1000) {
+		spanText = "Tags filtered (tap to remove):";
+	} else {
+		spanText = "Tags filtered (click to remove):";
+	}
+	span.appendChild(document.createTextNode(spanText));
+	LINKIFUL.trackTagsDiv.appendChild(span);
 
 	for (var i=0; i< LINKIFUL.tagsFiltered.length; i += 1) {
 		var trackTag = document.createElement("a");

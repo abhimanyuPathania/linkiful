@@ -1,8 +1,5 @@
 /* color scheme*/
 /* 
-	basic font color: #7f8c8d ;
-	header background: #ecf0f1 ;
-
 	dark grey: #7f8c8d;(asbestos)
 	light grey: #bdc3c7;
 	very light grey: #ecf0f1(clouds);
@@ -386,8 +383,165 @@ div.link-div.pink a.tag:hover{
 /*---------------------------- meida queries ----------------------------*/
 
 @media only screen and (max-width: 999px){
-	#content-wrapper{      /* check if need this query*/
+	#content-wrapper{    
 		padding:0 10px;
+	}
+}
+
+
+
+@media only screen and (max-width: 800px) {
+		body, a, button, input {
+		font-size: 16px;
+	}
+
+	#header {
+		padding: 50px 5px;
+	}
+	#header h1 a {
+		font-size: 64px;
+	}
+	#content-wrapper {
+		margin-top: 30px;
+		padding:0 10px;
+	}
+
+	button, a.button{
+		border-radius: 4px;
+		font-size: 16px;
+	}
+	button.control {
+		font-size: 14px;
+		padding: 3px 8px;
+	}
+	button.theme, a.button.theme{
+		font-weight: 400;
+		padding: 4px 10px;
+	}
+
+	/* fix link--> 2px size difference in firefox
+	   increase top/bottom padding by 1px
+	*/
+	@-moz-document url-prefix() { 
+	  a.button.theme{
+	     padding: 5px 10px;
+	  }
+	}
+
+	button.theme:active, a.button.theme:active{
+		padding: 4px 10px;
+	}
+
+	@-moz-document url-prefix() { 
+		a.button.theme:active {
+	     padding: 5px 10px;
+	  }
+	}
+
+
+	button.theme.big{
+		border-radius: 8px;
+		font-weight: 400;
+		width: 100px;
+		height: 40px;
+		font-size: 20px;
+	}
+
+	button.theme.big.disabled:active{
+		padding: 4px 8px;
+	}
+
+	/* ------------------- inputs fields ------------------- */
+
+	input {
+		height: 45px;
+		/*width: 50%;*/
+		font-size: 18px;
+		padding: 0px 12px;
+		border-radius: 8px;
+		text-align: center;
+	}
+
+	/* fixing inner borders */
+	 input:nth-child(2) {
+		border-right: 0px;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px; 
+	}
+
+	 input:nth-child(3) {
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px; 
+	}
+	 input.big{
+		height: 65px;
+		width: 100%;
+		margin-bottom: 30px;
+		font-size: 28px;		
+	}
+	#input-field-controls{
+		margin-top: 15px;
+	}
+	#trackTags{
+		height: auto;
+		margin-top: 30px;
+		padding: 4px 10px;
+		overflow: auto;
+
+	}
+	#trackTags span{
+		margin-right: 5px;
+		font-size: 14px;
+		display: block;
+		margin-bottom: 5px;
+	}
+	#result{
+		margin: 15px 0px 100px 0px;  /* fix bottom margin -- done 100px */
+	}
+	div.link-div{
+		padding: 5px 10px;
+		border-radius: 8px;
+	}
+
+	div.link-div .content a{
+		float: none;
+	}
+
+	div.link-div .content span {
+		font-size: 14px;
+	}
+	a.tag{
+		margin-right: 5px;
+		border-radius: 5px;
+		padding: 2px 8px;
+		font-size: 14px;
+	}
+	/* fix hovers */
+	div.link-div.pink .content a:hover{
+		font-size: 16px;
+	}
+	 div.link-div .content span:hover{
+		font-size: 14px;
+	}
+
+	/*----------- footer -----------*/
+
+	#footer{
+		padding-left: 10px;
+		padding-right: 10px;
+		box-shadow: 0 -4px 6px -6px rgba(246,36,89, 1);
+	}
+	#footer button, #footer a.button{
+		margin-right: 5px;
+	}
+
+	#footer button:last-of-type{
+		margin-right: 20px;
+	}
+
+	#log{
+		margin-bottom: 5px;
+		font-size: 18px;
 	}
 }
 
@@ -413,7 +567,7 @@ div.link-div.pink a.tag:hover{
 	}
 	button.control {
 		font-size: 12px;
-		padding: 2px 5px;
+		padding: 3px 6px;
 	}
 	button.theme, a.button.theme{
 		font-weight: 400;
@@ -482,27 +636,26 @@ div.link-div.pink a.tag:hover{
 
 
 	#trackTags{
-		height: 20px;
+		height: auto;
 		margin-top: 20px;
-		padding: 0px 5px; /* fix padding of link divs*/
+		padding: 4px 5px;
+		overflow: auto; 
 	}
 	#trackTags span{
 		margin-right: 5px;
+		display: block;
+		margin-bottom: 5px;
+		font-size: 12px;
 	}
 	#result{
 		margin: 10px 0px 80px 0px; 
 	}
-
-
-
 	div.link-div{
 		padding: 5px 5px;
-		/*margin-bottom: 10px;*/
 		border-radius: 5px;
 	}
 
 	div.link-div .content a{
-		/*text-decoration: none;*/
 		float: none;
 	}
 
@@ -519,19 +672,12 @@ div.link-div.pink a.tag:hover{
 
 	div.link-controls-div{
 		margin-top: 7px;
-		/*text-align: center;*/
-		
-		/* to fix lot of tags- provide scrollbar */
 		padding-top: 1px;
 		overflow: auto;
 	}
 
 	div.link-controls-div div.edit-delete button.control{
 		float: none;
-		/*margin-right: 0;*/
-		/*display: inline;*/
-		
-		/*margin-right: 5px;*/
 	}
 	div.link-controls-div div.edit-delete {
 		text-align: center;
@@ -560,17 +706,11 @@ div.link-div.pink a.tag:hover{
 		box-shadow: 0 -4px 6px -6px rgba(246,36,89, 1);
 	}
 
-	/*#footer .footer-wrapper{
-
-	}*/
-
 	#footer button, #footer a.button{
-		/*float: left;*/
 		margin-right: 5px;
 	}
 
 	#footer button:last-of-type{
-		/*float: right;*/
 		margin-right: 10px;
 	}
 
@@ -581,6 +721,3 @@ div.link-div.pink a.tag:hover{
 
 }
 
-@media only screen and (max-width: 800px) {
-
-}
