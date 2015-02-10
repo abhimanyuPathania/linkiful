@@ -1,4 +1,9 @@
 
+(function () {
+
+// REMOVE THIS!
+console.log("The anonymoussss wrapper"); 
+
 var LINKIFUL = {
 	allLinkInputs: document.querySelectorAll("#linkInputWrapper input[type=text]"),
 	textField : document.querySelector("#text"),
@@ -12,6 +17,8 @@ var LINKIFUL = {
 	clearStorage : document.querySelector("#clearStorage"),
 	backup : document.querySelector("#backup"),
 	restore : document.querySelector("#restore"),
+
+	// Working JS object initialized using JSON from localStorage
 	allLinks: null,
 
 	// LINKIFUL app state flags
@@ -392,7 +399,7 @@ function clearStorage() {
 	
 }
 
-// EVENT HANDLER HELPER FUNCTIONS
+//------------------------ EVENT HANDLER HELPER FUNCTIONS ------------------------//
 
 function displayLinks(ob) {
 	clearWrapper();
@@ -509,12 +516,18 @@ function createLinkDiv(key) {
 	mainDiv.classList.add("pink");
 
 	var contentDiv = document.createElement("div");
-	contentDiv.classList.add("clearfix2");
 	contentDiv.classList.add("content");
+	if (window.innerWidth > 500) {
+		contentDiv.classList.add("clearfix2");
+	}
+	
 
 	var controlsDiv = document.createElement("div");
 	controlsDiv.classList.add("link-controls-div");
-	controlsDiv.classList.add("clearfix1"); 
+	if (window.innerWidth > 500) {
+		controlsDiv.classList.add("clearfix1"); 
+	}
+	
 	
 	var link = document.createElement("a");
 	var linkText = document.createTextNode(LINKIFUL.allLinks[key].text);
@@ -556,9 +569,17 @@ function createLinkDiv(key) {
 
 		}
 
-	controlsDiv.appendChild(editControl);
-	controlsDiv.appendChild(deleteControl);
-
+	if (window.innerWidth <= 500) {
+		var dummyDiv = document.createElement("div");
+		dummyDiv.classList.add("edit-delete");
+		dummyDiv.appendChild(editControl);
+		dummyDiv.appendChild(deleteControl);
+		controlsDiv.appendChild(dummyDiv);
+	} else {
+		controlsDiv.appendChild(editControl);
+		controlsDiv.appendChild(deleteControl);
+	}
+	
 	contentDiv.appendChild(link);
 	contentDiv.appendChild(dateSpan);
 	mainDiv.appendChild(contentDiv);
@@ -632,3 +653,5 @@ function removeDuplicates(arr) {
     });
     return arr
 }
+
+}());

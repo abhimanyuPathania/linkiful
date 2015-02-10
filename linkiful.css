@@ -44,8 +44,8 @@ a {
 /*---------------------------- main wrappers/header ----------------------------*/
 
 #header {
-	height: 140px;
-	padding-top: 60px;
+	/*height: 140px;*/
+	padding: 60px 0;
 }
 
 #header h1 a{
@@ -330,17 +330,18 @@ div.link-div.pink a.tag:hover{
 
 #footer{
 	background-color: #ecf0f1;
-	height: 60px;
+	/*height: 60px;*/
 	position: fixed;
 	bottom: 0;
 	width: 100%;
+	padding: 10px 0;
 }
 
 #footer .footer-wrapper{
 	max-width: 1000px;
 	margin: 0 auto;
-	border: 0px solid black;
-	margin-top: 10px;
+	/*border: 0px solid black;*/
+	/*margin-top: 10px;*/
 	text-align: center;
 }
 
@@ -355,8 +356,9 @@ div.link-div.pink a.tag:hover{
 }
 
 #log{
-	display: inline-block;
-	margin-top: 6px; /* equal to that of button theme*/
+	/*display: inline-block;*/
+	text-align: center;
+	/*margin-top: 6px;*/ /* equal to that of button theme*/
 	font-weight: 400;
 	font-size: 20px;
 }
@@ -380,4 +382,205 @@ div.link-div.pink a.tag:hover{
 	height: 0;
 	clear: both;
 }
-	
+
+/*---------------------------- meida queries ----------------------------*/
+
+@media only screen and (max-width: 999px){
+	#content-wrapper{      /* check if need this query*/
+		padding:0 10px;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	body, a, button, input {
+		font-size: 14px;
+	}
+
+	#header {
+		padding: 40px 5px;
+	}
+	#header h1 a {
+		font-size: 48px;
+	}
+	#content-wrapper {
+		margin-top: 20px;
+		padding:0 5px;
+	}
+
+	button, a.button{
+		border-radius: 3px;
+		font-size: 14px;
+	}
+	button.control {
+		font-size: 12px;
+		padding: 2px 5px;
+	}
+	button.theme, a.button.theme{
+		font-weight: 400;
+		padding: 4px 8px;
+	}
+
+	/* fix link--> 2px size difference in firefox
+	   increase top/bottom padding by 1px
+	*/
+	@-moz-document url-prefix() { 
+	  a.button.theme{
+	     padding: 5px 8px;
+	  }
+	}
+
+	button.theme:active, a.button.theme:active{
+		padding: 4px 8px;
+	}
+
+	@-moz-document url-prefix() { 
+		a.button.theme:active {
+	     padding: 5px 8px;
+	  }
+	}
+
+
+	button.theme.big{
+		border-radius: 8px;
+		font-weight: 400;
+		width: 90px;
+		height: 40px;
+		font-size: 18px;
+	}
+
+	button.theme.big.disabled:active{
+		padding: 4px 8px;
+	}
+
+	/* ------------------- inputs fields ------------------- */
+
+	input {
+		height: 40px;
+		width: 100%;
+		font-size: 16px;
+		padding: 0px 10px;
+		border-radius: 8px;
+		margin-bottom: 10px;
+		text-align: center;
+	}
+
+	/* fixing inner borders */
+	 input:nth-child(2), input:nth-child(3) {
+	 	border-radius: 8px;
+	 	border: 1px solid #7f8c8d;
+	}
+
+	 input.big{
+		height: 60px;
+		width: 100%;
+		margin-bottom: 20px;
+		font-size: 20px;		
+	}
+	#input-field-controls{
+		margin-top: 10px;
+	}
+
+
+	#trackTags{
+		height: 20px;
+		margin-top: 20px;
+		padding: 0px 5px; /* fix padding of link divs*/
+	}
+	#trackTags span{
+		margin-right: 5px;
+	}
+	#result{
+		margin: 10px 0px 80px 0px; 
+	}
+
+
+
+	div.link-div{
+		padding: 5px 5px;
+		/*margin-bottom: 10px;*/
+		border-radius: 5px;
+	}
+
+	div.link-div .content a{
+		/*text-decoration: none;*/
+		float: none;
+	}
+
+	div.link-div .content span {
+		font-size: 12px;
+		display: block;
+		float: none;
+		padding-top: 2px;
+	}
+
+	div.link-div span:hover{
+		cursor: pointer;
+	}
+
+	div.link-controls-div{
+		margin-top: 7px;
+		/*text-align: center;*/
+		
+		/* to fix lot of tags- provide scrollbar */
+		padding-top: 1px;
+		overflow: auto;
+	}
+
+	div.link-controls-div div.edit-delete button.control{
+		float: none;
+		/*margin-right: 0;*/
+		/*display: inline;*/
+		
+		/*margin-right: 5px;*/
+	}
+	div.link-controls-div div.edit-delete {
+		text-align: center;
+		margin-top: 8px;
+	}
+
+	a.tag{
+		margin-right: 5px;
+		border-radius: 4px;
+		padding: 2px 5px;
+		font-size: 12px;
+	}
+	/* fix hovers */
+	div.link-div.pink .content a:hover{
+		font-size: 14px;
+	}
+	 div.link-div .content span:hover{
+		font-size: 12px;
+	}
+
+	/*----------- footer -----------*/
+
+	#footer{
+		padding-left: 5px;
+		padding-right: 5px;
+		box-shadow: 0 -4px 6px -6px rgba(246,36,89, 1);
+	}
+
+	/*#footer .footer-wrapper{
+
+	}*/
+
+	#footer button, #footer a.button{
+		/*float: left;*/
+		margin-right: 5px;
+	}
+
+	#footer button:last-of-type{
+		/*float: right;*/
+		margin-right: 10px;
+	}
+
+	#log{
+		margin-bottom: 5px;
+		font-size: 16px;
+	}
+
+}
+
+@media only screen and (max-width: 800px) {
+
+}
