@@ -41,7 +41,6 @@ a {
 /*---------------------------- main wrappers/header ----------------------------*/
 
 #header {
-	/*height: 140px;*/
 	padding: 60px 0;
 }
 
@@ -231,7 +230,7 @@ input.big.pink:focus {
 
 
 #result{
-	margin: 20px 0px 120px 0px; 
+	margin: 20px 0px 100px 0px; 
 }
 
 div.link-div{
@@ -256,9 +255,9 @@ div.link-controls-div{
 	margin-top: 5px;
 }
 
-div.link-controls-div button.control{
+div.link-controls-div  button.control{
 	float: right;
-	margin-right: 5px;
+	margin-left: 5px;
 }
 
 a.tag{
@@ -327,7 +326,6 @@ div.link-div.pink a.tag:hover{
 
 #footer{
 	background-color: #ecf0f1;
-	/*height: 60px;*/
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -337,8 +335,6 @@ div.link-div.pink a.tag:hover{
 #footer .footer-wrapper{
 	max-width: 1000px;
 	margin: 0 auto;
-	/*border: 0px solid black;*/
-	/*margin-top: 10px;*/
 	text-align: center;
 }
 
@@ -353,9 +349,7 @@ div.link-div.pink a.tag:hover{
 }
 
 #log{
-	/*display: inline-block;*/
 	text-align: center;
-	/*margin-top: 6px;*/ /* equal to that of button theme*/
 	font-weight: 400;
 	font-size: 20px;
 }
@@ -373,24 +367,37 @@ div.link-div.pink a.tag:hover{
 	clear: both;
 }
 
+/* to fix font increase animation */
 .clearfix2:after{
 	content: ".";
 	visibility: hidden;
 	height: 0;
-	clear: both;
+	clear: right;
+	display: block;
 }
 
 /*---------------------------- meida queries ----------------------------*/
 
-@media only screen and (max-width: 999px){
+@media screen and (max-width: 999px){
 	#content-wrapper{    
 		padding:0 10px;
 	}
 }
 
+@media screen and (min-width: 801px) and (max-width: 999px){
+	#footer{
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	#footer button:last-of-type{
+		margin-right: 20px;
+	}
+}
 
 
-@media only screen and (max-width: 800px) {
+
+@media screen and (min-width: 501px) and (max-width: 800px) {
 		body, a, button, input {
 		font-size: 16px;
 	}
@@ -503,10 +510,12 @@ div.link-div.pink a.tag:hover{
 		border-radius: 8px;
 	}
 
-	div.link-div .content a{
-		float: none;
+	div.link-controls-div {
+		margin-top: 10px;
 	}
-
+	/*div.link-div .content a{
+		float: left;
+	}*/
 	div.link-div .content span {
 		font-size: 14px;
 	}
@@ -522,6 +531,12 @@ div.link-div.pink a.tag:hover{
 	}
 	 div.link-div .content span:hover{
 		font-size: 14px;
+	}
+
+	/* to fix multiple same filter tag taps bug */
+	div.link-div.pink a.tag:hover {
+		background-color: inherit;
+		color: #7f8c8d;
 	}
 
 	/*----------- footer -----------*/
@@ -545,9 +560,10 @@ div.link-div.pink a.tag:hover{
 	}
 }
 
-@media only screen and (max-width: 500px) {
+
+@media screen and (max-width: 500px) {
 	body, a, button, input {
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	#header {
@@ -566,8 +582,8 @@ div.link-div.pink a.tag:hover{
 		font-size: 14px;
 	}
 	button.control {
-		font-size: 12px;
-		padding: 3px 6px;
+		font-size: 14px;
+		padding: 4px 8px;
 	}
 	button.theme, a.button.theme{
 		font-weight: 400;
@@ -638,21 +654,22 @@ div.link-div.pink a.tag:hover{
 	#trackTags{
 		height: auto;
 		margin-top: 20px;
-		padding: 4px 5px;
+		padding: 4px 5px 4px 10px;
 		overflow: auto; 
 	}
 	#trackTags span{
 		margin-right: 5px;
 		display: block;
 		margin-bottom: 5px;
-		font-size: 12px;
+		font-size: 14px;
 	}
 	#result{
-		margin: 10px 0px 80px 0px; 
+		margin: 20px 0px 80px 0px;
 	}
 	div.link-div{
-		padding: 5px 5px;
+		padding: 8px 5px 5px 10px;
 		border-radius: 5px;
+		padding-bottom: 10px;
 	}
 
 	div.link-div .content a{
@@ -660,42 +677,60 @@ div.link-div.pink a.tag:hover{
 	}
 
 	div.link-div .content span {
-		font-size: 12px;
+		font-size: 14px;
 		display: block;
 		float: none;
-		padding-top: 2px;
-	}
-
-	div.link-div span:hover{
-		cursor: pointer;
+		padding-top: 10px;
 	}
 
 	div.link-controls-div{
-		margin-top: 7px;
-		padding-top: 1px;
+		margin-top: 10px;
+		padding-top: 2px;
 		overflow: auto;
+		text-align: center;
 	}
 
-	div.link-controls-div div.edit-delete button.control{
+
+
+	div.link-div div.link-controls-div span {
+		display: block;
+		text-align: left;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	div.link-controls-div button.control {
 		float: none;
 	}
-	div.link-controls-div div.edit-delete {
-		text-align: center;
-		margin-top: 8px;
+
+	div.link-controls-div button.control:first-of-type{
+		margin-right: 6px;
 	}
 
+	div.link-controls-div button.control:last-of-type{
+		margin-left: 6px;
+	}
+	
+
+
 	a.tag{
-		margin-right: 5px;
+		margin-right: 7px;
 		border-radius: 4px;
-		padding: 2px 5px;
-		font-size: 12px;
+		padding: 3px 6px;
+		font-size: 14px;
 	}
 	/* fix hovers */
 	div.link-div.pink .content a:hover{
-		font-size: 14px;
+		font-size: 16px;
 	}
 	 div.link-div .content span:hover{
-		font-size: 12px;
+		font-size: 14px;
+	}
+
+	/* to fix multiple same filter tag taps bug */
+	div.link-div.pink a.tag:hover {
+		background-color: inherit;
+		color: #7f8c8d;
 	}
 
 	/*----------- footer -----------*/
@@ -717,6 +752,22 @@ div.link-div.pink a.tag:hover{
 	#log{
 		margin-bottom: 5px;
 		font-size: 16px;
+	}
+
+	.clearfix1:after{
+		content: none;
+		visibility: hidden;
+		display: block;
+		height: 0;
+		clear: both;
+	}
+
+	.clearfix2:after{
+		content: none;
+		visibility: hidden;
+		height: 0;
+		clear: right;
+		display: block;
 	}
 
 }

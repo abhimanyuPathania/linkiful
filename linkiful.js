@@ -398,6 +398,10 @@ function clearStorage() {
 	}
 	
 }
+/*
+function handleRotate(e) {
+	location.reload();
+}*/
 
 //------------------------ EVENT HANDLER HELPER FUNCTIONS ------------------------//
 
@@ -517,16 +521,12 @@ function createLinkDiv(key) {
 
 	var contentDiv = document.createElement("div");
 	contentDiv.classList.add("content");
-	if (window.innerWidth > 500) {
-		contentDiv.classList.add("clearfix2");
-	}
+	contentDiv.classList.add("clearfix2");
 	
 
 	var controlsDiv = document.createElement("div");
 	controlsDiv.classList.add("link-controls-div");
-	if (window.innerWidth > 500) {
-		controlsDiv.classList.add("clearfix1"); 
-	}
+	controlsDiv.classList.add("clearfix1"); 
 	
 	
 	var link = document.createElement("a");
@@ -554,6 +554,7 @@ function createLinkDiv(key) {
 	deleteControl.appendChild(document.createTextNode("Delete"));
 	editControl.appendChild(document.createTextNode("Edit"));
 
+	var tagSpan = document.createElement("span");
 	var tags = LINKIFUL.allLinks[key].tags;
 	var tagsArr = tags.split(",");
 	
@@ -565,20 +566,14 @@ function createLinkDiv(key) {
 			tagLink.setAttribute("data-tag", tagLinkText);
 			tagLink.classList.add("tag");
 			tagLink.addEventListener("mouseup", filterTags, false);
-			controlsDiv.appendChild(tagLink);
+			tagSpan.appendChild(tagLink);
 
 		}
 
-	if (window.innerWidth <= 500) {
-		var dummyDiv = document.createElement("div");
-		dummyDiv.classList.add("edit-delete");
-		dummyDiv.appendChild(editControl);
-		dummyDiv.appendChild(deleteControl);
-		controlsDiv.appendChild(dummyDiv);
-	} else {
-		controlsDiv.appendChild(editControl);
-		controlsDiv.appendChild(deleteControl);
-	}
+	controlsDiv.appendChild(tagSpan);
+	controlsDiv.appendChild(editControl);
+	controlsDiv.appendChild(deleteControl);
+	
 	
 	contentDiv.appendChild(link);
 	contentDiv.appendChild(dateSpan);
