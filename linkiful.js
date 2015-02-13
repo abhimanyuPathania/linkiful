@@ -17,6 +17,7 @@ var LINKIFUL = {
 	clearStorage : document.querySelector("#clearStorage"),
 	backup : document.querySelector("#backup"),
 	restore : document.querySelector("#restore"),
+	changeTheme: document.querySelector('#changeTheme'),
 
 	// Working JS object initialized using JSON from localStorage
 	allLinks: null,
@@ -48,7 +49,7 @@ var LINKIFUL = {
 	// two event handlers on cancel with same event
 	LINKIFUL.cancel.addEventListener("mouseup", cancelEdit, false);
 	LINKIFUL.cancel.addEventListener("mouseup", cancelNewInput, false);
-
+	LINKIFUL.changeTheme.addEventListener("mouseup", flipTheme,false);
 	LINKIFUL.restore.addEventListener("mouseup", restoreLinks, false);
 
 	for (var i=0; i< LINKIFUL.allLinkInputs.length; i += 1) {
@@ -385,7 +386,12 @@ function restoreLinks(e) {
 	}
 }
 
-function clearStorage() {
+function clearStorage(e) {
+
+	if (e.button !== 0) {
+		return false;
+	}
+
 	clearLog();
 	var check = confirm("This will permanently delete all links.\nAre you sure?");
 	if (check){
@@ -398,10 +404,20 @@ function clearStorage() {
 	}
 	
 }
-/*
-function handleRotate(e) {
-	location.reload();
-}*/
+
+function flipTheme (e) {
+
+	if (e.button !== 0) {
+			return false;
+		}
+
+	console.log("flip theme function");
+	var pinkElements = document.querySelectorAll(".pink");
+	for (var i = 0, len = pinkElements.length; i < len; i += 1) {
+		pinkElements[i].classList.remove("pink");
+	}
+
+}
 
 //------------------------ EVENT HANDLER HELPER FUNCTIONS ------------------------//
 

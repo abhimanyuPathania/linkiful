@@ -462,7 +462,6 @@ div.link-div.pink a.tag:hover{
 
 	input {
 		height: 45px;
-		/*width: 50%;*/
 		font-size: 18px;
 		padding: 0px 12px;
 		border-radius: 8px;
@@ -503,7 +502,7 @@ div.link-div.pink a.tag:hover{
 		margin-bottom: 5px;
 	}
 	#result{
-		margin: 15px 0px 100px 0px;  /* fix bottom margin -- done 100px */
+		margin: 15px 0px 100px 0px;  
 	}
 	div.link-div{
 		padding: 5px 10px;
@@ -513,9 +512,7 @@ div.link-div.pink a.tag:hover{
 	div.link-controls-div {
 		margin-top: 10px;
 	}
-	/*div.link-div .content a{
-		float: left;
-	}*/
+
 	div.link-div .content span {
 		font-size: 14px;
 	}
