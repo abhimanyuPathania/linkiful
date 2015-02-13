@@ -1,8 +1,5 @@
 
-//(function () { exposing variables for testing
-
-// REMOVE THIS!
-//console.log("The anonymoussss wrapper"); 
+(function () { 
 
 var LINKIFUL = {
 	allLinkInputs: document.querySelectorAll("#linkInputWrapper input[type=text]"),
@@ -29,7 +26,7 @@ var LINKIFUL = {
 	reversed:false,
 	filtered:false,
 	tagsFiltered:[],
-	theme: "pink"
+	theme: null
 };
 
 (function() {
@@ -44,6 +41,10 @@ var LINKIFUL = {
 		LINKIFUL.allLinks = {};
 	}
 
+	// setup theme as soon as possible
+	LINKIFUL.theme = localStorage.getItem("linkifulTheme") || "pink";
+	setupTheme();
+
 	LINKIFUL.save.addEventListener("mouseup", addLink, false);
 	LINKIFUL.clearStorage.addEventListener("mouseup", clearStorage, false);
 
@@ -57,8 +58,9 @@ var LINKIFUL = {
 		LINKIFUL.allLinkInputs[i].addEventListener("input", setNewInput, false);
 	}
 
+	setupTheme();
 	displayLinks(LINKIFUL.allLinks);
-	//flipTheme();
+
 }());
 
 // EVENT HANDLERS
@@ -419,14 +421,20 @@ function flipTheme (e) {
 	if( currentTheme === "pink") {
 		colorQuery = ".pink";
 		shadeQuery = ".light";
+		// swith the active theme for next flip
 		LINKIFUL.theme = "yellow";
+		// remember in case of app close
+		localStorage.setItem("linkifulTheme", "yellow");
+		// change the button text
+		LINKIFUL.changeTheme.innerHTML = "Use Light-theme";
 	} else {
 		colorQuery = ".yellow";
 		shadeQuery = ".dark";
 		LINKIFUL.theme = "pink";
+		localStorage.setItem("linkifulTheme", "pink");
+		LINKIFUL.changeTheme.innerHTML = "Use Dark-theme";
 	}
 
-	console.log("flip theme function");
 	var colorElements = document.querySelectorAll(colorQuery);
 	var shadeElements = document.querySelectorAll(shadeQuery);
 
@@ -469,6 +477,33 @@ function displayLinks(ob) {
 		LINKIFUL.result.innerHTML = "No links yet";
 	}
 	
+}
+
+function setupTheme () {
+	
+	if (LINKIFUL.theme === "pink") {
+		LINKIFUL.changeTheme.innerHTML = "Use Dark-theme";
+		return false;
+	} 
+
+	if (LINKIFUL.theme === "yellow") {
+		console.log("setup theme yellow running");
+		var colorToToggle = document.querySelectorAll(".pink");
+		var shadeToToggle = document.querySelectorAll(".light");
+
+		for (var i = 0, len = colorToToggle.length; i < len; i += 1) {
+			colorToToggle[i].classList.remove("pink");
+			colorToToggle[i].classList.add("yellow");
+		}
+
+		for (var i = 0, len = shadeToToggle.length; i < len; i += 1) {
+			shadeToToggle[i].classList.remove("light");
+			shadeToToggle[i].classList.add("dark");
+		}
+
+		LINKIFUL.changeTheme.innerHTML = "Use Light-theme";
+	}
+
 }
 
 function updateStorage() {
@@ -706,4 +741,4 @@ function removeDuplicates(arr) {
     return arr
 }
 
-//}());
+}());
