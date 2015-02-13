@@ -1,5 +1,7 @@
 /* color scheme*/
 /* 
+	Light pink theme
+
 	dark grey: #7f8c8d;(asbestos)
 	light grey: #bdc3c7;
 	very light grey: #ecf0f1(clouds);
@@ -8,11 +10,22 @@
 	pink dark: #DB5A6B;
 	pink light: #F47983;
 	pink very light: #FFB3A7;
+
+------------------------------------
+	
+	Dark yellow theme
+	
+	yellow very dark: #f1c40f, rgba(241, 196, 15,1.0);
+	yellow dark: #FFB61E, rgb(255,182,30);
+	yellow light: #F4D03F, rgb(244,208,63);
+	yellow very light: #FFFF66, rgb(255,255,102);
+
 */
 
 * {
 	padding: 0;
 	margin: 0;
+	transition: all 0.3s ease-in-out;
 }
 
 body, input, button, h1{
@@ -27,8 +40,7 @@ button, input{
 	outline: none; /*had to use in chrome*/
 }
 
-body, a, button, input{
-	color: #7f8c8d;
+body, a, button, input{ /* fix font colors for default theme*/
 	font-family: 'Raleway', Helvetica, Arial, sans-serif;
 	font-size: 18px;
 	font-weight: 300;
@@ -36,6 +48,16 @@ body, a, button, input{
 
 a {
 	text-decoration: none;
+}
+
+body.light{
+	color: #7f8c8d;
+	background-color: #fff;
+}
+
+body.dark{
+	color: #ecf0f1;
+	background-color: #757D75;
 }
 
 /*---------------------------- main wrappers/header ----------------------------*/
@@ -60,14 +82,34 @@ a {
 	margin: 0 auto;
 	margin-top: 40px;
 }
-/*light theme*/
+
+/*light pink theme*/
 #header.light {
 	background-color: #ecf0f1;
 }
-/* pink theme */
+#header.light a {
+	color: #7f8c8d;
+}
 #header h1 span.pink{
 	color: #F47983;
 	text-shadow: 0px 0px 4px rgba(246,36,89, 0.6);
+}
+
+/*dark yellow theme*/
+
+#header.dark {
+	/*padding: 53px 0px;*/
+	background-color: #505050;
+	box-shadow: inset  0 -8px 8px -8px #757D75;
+}
+
+#header.dark a {
+	color: #ecf0f1;
+}
+
+#header h1 span.yellow{
+	color: #FFFF66;
+	text-shadow: 0px 0px 6px rgba(255,255,102,0.8);
 }
 
 /*---------------------------- buttons ----------------------------*/
@@ -94,19 +136,49 @@ button.control {
 				color 0.3s ease-in-out;
 }
 
-button.control:hover {
+/* light theme */
+button.control.light{
+	color: #7f8c8d;
+}
+
+button.control.light:hover {
 	background-color: #bdc3c7;
 	color: #ecf0f1;
 }
 
-button.control:active{
+button.control.light:active{
 	background-color: #bdc3c7;
 }
+
+/* dark theme */
+
+button.control.dark{
+	color: #fff;
+	background-color: rgba(160,160,160, 0.8);
+	border: 1px solid rgba(160,160,160, 0.8);
+	padding:2px 8px;
+}
+
+button.control.dark:hover {
+	background-color: #808080;
+	/*color:  #fff;*/
+	/*border: 1px solid rgba(160,160,160, 0.8);*/
+}
+
+button.control.dark:active{
+	background-color: rgba(160,160,160, 0.8);
+}
+
+
+
+
+
 
 button.theme, a.button.theme{
 	font-weight: 300;
 	padding: 6px 12px;
 }
+
 
 /* fix link--> 2px size difference in firefox
    increase top/bottom padding by 1px
@@ -139,6 +211,7 @@ button.theme.big.disabled:hover{
 button.theme.big.disabled:active{
 	padding:8px 12px;
 }
+
 /* the pink theme */
 
 button.pink, a.button.pink{
@@ -152,14 +225,52 @@ button.pink:active, a.button.pink:active{
 	background-color: #F47983;
 }
 
+/* dark yello theme */
+
+button.yellow, a.button.yellow{
+	background-color: #F4D03F;
+	color:#fff;
+}
+button.yellow:hover, a.button.yellow:hover{
+	background-color: #FFB61E;
+}
+button.yellow:active, a.button.yellow:active{
+	background-color: #F4D03F;
+}
+
+
 /*---------------------------- input fields ----------------------------*/
  input {
-	border: 1px solid #7f8c8d;
+	/*border: 1px solid #7f8c8d;*/
 	height: 50px;
 	width: 50%;
 	font-size: 24px;
 	padding: 0px 40px;
 	border-radius: 10px;
+}
+
+input:focus {
+	/*text-shadow: 0px 0px 2px rgba(127, 140, 141, 0.8);*/
+}
+
+/* light theme */
+input.light {
+	border: 1px solid #7f8c8d;
+	color: #7f8c8d;
+}
+input.light:focus {
+	text-shadow: 0px 0px 2px rgba(127, 140, 141, 0.8);
+}
+
+/* dark theme */
+input.dark {
+	border: 1px solid #ecf0f1;
+	color: #ecf0f1;
+	background-color: #757D75;
+	cursor: url(yellow_cursor_1.cur), auto;
+}
+input.dark:focus ,input.dark:hover{
+	text-shadow: 0px 0px 2px rgba(241, 196, 15, 0.8);
 }
 
 /* fixing inner borders */
@@ -174,11 +285,6 @@ button.pink:active, a.button.pink:active{
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px; 
 }
-
- input:focus {
-	text-shadow: 0px 0px 2px rgba(127, 140, 141, 0.8);
-}
-
  input.big{
 	height: 70px;
 	width: 100%;
@@ -190,7 +296,14 @@ button.pink:active, a.button.pink:active{
 	border-radius: 0px;
 	margin-bottom: 40px;
 }
+
+#input-field-controls{
+	margin-top: 20px;
+	text-align: center;
+}
+
 /* the pink theme */
+
 input.big.pink{
 	color: #F62459;
 	border-bottom: 2px solid #F47983;
@@ -206,10 +319,24 @@ input.big.pink:focus {
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.7);
 }
 
-#input-field-controls{
-	margin-top: 20px;
-	text-align: center;
+/* dark yellow theme */
+
+input.big.yellow{
+	color: #FFFF66;
+	border-bottom: 2px solid #FFFF66;
 }
+
+/* apply placeholder color for chrome since */
+input.big.yellow::-webkit-input-placeholder{
+    color: #FFFF66;
+}
+
+input.big.yellow:hover,
+input.big.yellow:focus {
+	text-shadow: 0px 0px 2px rgba(255,255,102, 0.8);
+}
+
+
 
 /*---------------------------- RESULT DIV ----------------------------*/
 
@@ -263,7 +390,7 @@ div.link-controls-div  button.control{
 a.tag{
 	margin-right: 5px;
 	border-radius: 5px;
-	padding: 2px 10px;
+	padding: 3px 10px;
 	font-size: 14px;
 
 	-webkit-transition: background-color 0.3s ease-in-out,
@@ -276,28 +403,33 @@ a.tag:hover, a.tag:active, a.tag:focus{
 	cursor: pointer;
 }
 
-/* pink theme */
-
-div.link-div.pink{
-	background-color: rgba(255,179,167, 0.3);
-}
-
-
-div.link-div.pink .content a, div.link-div.pink .content span{
+div.link-div .content a, div.link-div .content span{
 	-webkit-transition: color 0.2s ease-in-out,
 						font-size 0.2s ease-in-out;
         	transition: color 0.2s ease-in-out,
 						font-size 0.2s ease-in-out;
 }
 
-div.link-div.pink .content a:hover, div.link-div .content span:hover{
+/* pink theme */
+
+div.link-div.pink{
+	background-color: rgba(255,179,167, 0.3);
+}
+
+div.link-div.pink a {
+	color:#7f8c8d;
+}
+
+div.link-div.pink .content a:hover{
 	color: #F62459;
 	font-size: 19px;
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.5);
 }
 
-div.link-div .content span:hover{
-	font-size: 18px;
+div.link-div.pink .content span:hover{
+	/*font-size: 18px;*/
+	color: #F62459;
+	text-shadow: 0px 0px 1px rgba(246,36,89, 0.5);
 }
 
 div.link-div.pink a.tag{
@@ -322,15 +454,66 @@ div.link-div.pink a.tag:hover{
 	background-color: rgba(255,179,167, 0.3);
 }
 
+/* dark yellow theme */
+
+div.link-div.yellow{
+	background-color: rgba(241, 196, 15,0.3);
+}
+
+div.link-div.yellow a, div.link-div.yellow .content span{
+	color: #fff;
+}
+
+div.link-div.yellow .content a:hover{
+	color: #FFFF66;
+	font-size: 19px;
+	text-shadow: 0px 0px 2px rgba(255,255,102, 0.9);
+}
+
+div.link-div.yellow .content span:hover{
+	color: #FFFF66;
+	text-shadow: 0px 0px 2px rgba(255,255,102, 0.9);
+}
+
+div.link-div.yellow a.tag{
+	border: 1px solid rgba(244,208,63, 0.9);
+	color: #fff;
+}
+
+div.link-div.yellow a.tag{
+	padding-bottom: 4px;
+}
+
+div.link-div.yellow a.tag:hover{
+	background-color: rgba(244,208,63, 0.9);
+	/*color: #fff;*/
+}
+
+#trackTags a.yellow {
+	color: #fff;
+	background-color: rgba(244,208,63, 0.9);
+	border: 1px solid rgba(244,208,63, 0.9);
+
+}
+
+#trackTags a.yellow:hover {
+	border: 1px solid rgba(244,208,63, 0.9);
+	background-color: rgba(241, 196, 15,0.3);
+}
+
+
 /*---------------------------- footer ----------------------------*/
 
+
 #footer{
-	background-color: #ecf0f1;
+	
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	padding: 10px 0;
 }
+
+
 
 #footer .footer-wrapper{
 	max-width: 1000px;
@@ -355,8 +538,24 @@ div.link-div.pink a.tag:hover{
 }
 
 /* pink theme */
+#footer.light {
+	background-color: #ecf0f1;
+}
+
 #log.pink{
 	color: #F62459;
+}
+
+/* dark yellow  theme */
+#footer.dark {
+	background-color: rgba(80,80,80, 0.9);
+	/*box-shadow: 0 -9px 8px 3px rgba(241, 196, 15, 0.9);*/
+
+	box-shadow: 0 -5px 5px 0px rgba(241, 196, 15, 0.3);
+}
+
+#log.yellow {
+	color: #FFFF66;
 }
 
 .clearfix1:after{

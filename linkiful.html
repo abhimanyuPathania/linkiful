@@ -4,22 +4,22 @@
 	<!-- <meta > -->
 	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 	<title>linkiful (^_^)</title>
-	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+	<!-- <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'> -->
 	<link rel="stylesheet" type="text/css" href="linkiful.css">
 </head>
-<body>
+<body class="light">
 	<div id="header" class="light">
 		<h1><a href="">linkiful<span class="pink"> (^_^)</span></a></h1>
 		<p>Save, tag, filter and backup your links locally!</p>
 	</div>
 	<div>
-		<button id="changeTheme">Dark Theme</button>
+		<button id="changeTheme" data-theme="pink" style="margin-top:20px;">Dark Theme</button>
 	</div>
 	<div id="content-wrapper">
 		
 		<div id="linkInputWrapper">
-			<input type="text" id="url" class="big pink" placeholder="enter complete URL">
-			<input type="text" id="text" placeholder="text which will be displayed"><input type = "text" id="tags" placeholder="comma seperated tags">
+			<input type="text" id="url" class="big pink light" placeholder="enter complete URL">
+			<input type="text" id="text" class="light" placeholder="text which will be displayed"><input type = "text" id="tags" class="light" placeholder="comma seperated tags">
 			<div id="input-field-controls">
 				<button id="save" class ="theme pink big">Save</button>
 				<button id="cancel" class= "theme pink big disabled">Cancel</button>
@@ -34,7 +34,7 @@
 
 	</div>
 	
-	<div id="footer">
+	<div id="footer" class="light">
 		<div class="footer-wrapper">
 			<div id="log" class="pink"></div>
 			<a href="backup.html" id="backup" target="new" class="button theme pink">Backup</a>

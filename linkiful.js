@@ -1,8 +1,8 @@
 
-(function () {
+//(function () { exposing variables for testing
 
 // REMOVE THIS!
-console.log("The anonymoussss wrapper"); 
+//console.log("The anonymoussss wrapper"); 
 
 var LINKIFUL = {
 	allLinkInputs: document.querySelectorAll("#linkInputWrapper input[type=text]"),
@@ -28,7 +28,8 @@ var LINKIFUL = {
 	newInput:false,
 	reversed:false,
 	filtered:false,
-	tagsFiltered:[]
+	tagsFiltered:[],
+	theme: "pink"
 };
 
 (function() {
@@ -57,6 +58,7 @@ var LINKIFUL = {
 	}
 
 	displayLinks(LINKIFUL.allLinks);
+	//flipTheme();
 }());
 
 // EVENT HANDLERS
@@ -411,10 +413,31 @@ function flipTheme (e) {
 			return false;
 		}
 
+	var colorQuery, shadeQuery
+	var currentTheme = LINKIFUL.theme;
+
+	if( currentTheme === "pink") {
+		colorQuery = ".pink";
+		shadeQuery = ".light";
+		LINKIFUL.theme = "yellow";
+	} else {
+		colorQuery = ".yellow";
+		shadeQuery = ".dark";
+		LINKIFUL.theme = "pink";
+	}
+
 	console.log("flip theme function");
-	var pinkElements = document.querySelectorAll(".pink");
-	for (var i = 0, len = pinkElements.length; i < len; i += 1) {
-		pinkElements[i].classList.remove("pink");
+	var colorElements = document.querySelectorAll(colorQuery);
+	var shadeElements = document.querySelectorAll(shadeQuery);
+
+	for (var i = 0, len = colorElements.length; i < len; i += 1) {
+		colorElements[i].classList.toggle("pink");
+		colorElements[i].classList.toggle("yellow");
+	}
+
+	for (var i = 0, len = shadeElements.length; i < len; i += 1) {
+		shadeElements[i].classList.toggle("light");
+		shadeElements[i].classList.toggle("dark");
 	}
 
 }
@@ -530,10 +553,12 @@ function clearAllflags() {
 // HTML GENERATING FUNCTIONS
 
 function createLinkDiv(key) {
+
+	var activeTheme = LINKIFUL.theme;
 	
 	var mainDiv = document.createElement("div");
 	mainDiv.classList.add("link-div")
-	mainDiv.classList.add("pink");
+	mainDiv.classList.add(activeTheme); // here was pink
 
 	var contentDiv = document.createElement("div");
 	contentDiv.classList.add("content");
@@ -566,6 +591,15 @@ function createLinkDiv(key) {
 	editControl.setAttribute("data-key", key);
 	editControl.addEventListener("mouseup", editLink, false);
 	editControl.classList.add("control");
+
+	if (activeTheme === "pink") {
+		editControl.classList.add("light");
+		deleteControl.classList.add("light");
+	} else {
+		editControl.classList.add("dark");
+		deleteControl.classList.add("dark");
+	}
+	
 
 	deleteControl.appendChild(document.createTextNode("Delete"));
 	editControl.appendChild(document.createTextNode("Edit"));
@@ -601,6 +635,7 @@ function createLinkDiv(key) {
 
 function createTrackTags () {
 	
+	var activeTheme = LINKIFUL.theme;
 	LINKIFUL.trackTagsDiv.innerHTML = "";
 	
 	if (LINKIFUL.trackTagsDiv.classList.contains("hidden")) {
@@ -622,7 +657,7 @@ function createTrackTags () {
 		trackTag.appendChild(document.createTextNode(trackTagText));
 		trackTag.setAttribute("data-tag", trackTagText);
 		trackTag.classList.add("tag");
-		trackTag.classList.add("pink");
+		trackTag.classList.add(activeTheme);
 		trackTag.addEventListener("mouseup", removeTrackTag, false)
 
 		LINKIFUL.trackTagsDiv.appendChild(trackTag);
@@ -671,4 +706,4 @@ function removeDuplicates(arr) {
     return arr
 }
 
-}());
+//}());
