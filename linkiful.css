@@ -260,7 +260,7 @@ button.yellow:active, a.button.yellow:active{
 
 
 /*---------------------------- input fields ----------------------------*/
- input {
+ input[type="text"] {
 	/*border: 1px solid #7f8c8d;*/
 	height: 50px;
 	width: 50%;
@@ -290,18 +290,18 @@ input.dark:focus ,input.dark:hover{
 }
 
 /* fixing inner borders */
- input:nth-child(2) {
+ input[type=text]:nth-child(2) {
 	
 	border-right: 0px;
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px; 
 }
 
- input:nth-child(3) {
+ input[type=text]:nth-child(3) {
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px; 
 }
- input.big{
+ input[type=text].big{
 	height: 70px;
 	width: 100%;
 
@@ -317,6 +317,69 @@ input.dark:focus ,input.dark:hover{
 	margin-top: 20px;
 	text-align: center;
 }
+
+
+
+/* -------- search div, checkbox and label styles -------- */
+
+#search-div {
+	margin-top: 60px;
+	width: 50%;
+}
+#search-div div.checkbox-div{
+	margin-bottom: 10px;
+}
+
+#search-div input[type="text"] {
+	width: 80%;
+	height: 40px;
+	border-right: none;
+	border-radius: 5px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	vertical-align: bottom;
+	font-size: 20px;
+	padding: 0 20px; 
+}
+
+#search-div button {
+	width: 20%;
+	height: 40px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px; 
+}
+
+#search-div label{
+	cursor: pointer;
+	display: inline-block;
+	position: relative;  
+    padding-left: 30px;  
+}
+
+#search-div input[type=checkbox]{
+	display: none;
+}
+
+#search-div label:before{
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	border: 2px solid;
+	line-height: 20px;
+	border-radius: 3px;
+}
+
+#search-div input[type=checkbox]:checked + label:before {
+	content: "\2713";
+	font-size: 20px;
+	text-align: center;
+	line-height: 20px;
+}
+
 
 /* the pink theme */
 
@@ -335,6 +398,22 @@ input.big.pink:focus {
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.7);
 }
 
+#search-div input[type=text].pink {
+	color: #F47983;
+	border-color: #F47983;
+	text-shadow: 0px 0px 1px rgba(244,121,131, 0.8);
+}
+
+#search-div label.pink:before{
+	border-color: #F47983;
+}
+
+#search-div input[type=checkbox]:checked + label.pink:before{
+	color: #F47983;
+}
+
+
+
 /* dark yellow theme */
 
 input.big.yellow{
@@ -352,6 +431,19 @@ input.big.yellow:focus {
 	text-shadow: 0px 0px 2px rgba(255,255,102, 0.8);
 }
 
+#search-div input[type=text].yellow {
+	color: #F4D03F;
+	border-color: #F4D03F;
+}
+
+#search-div input[type=checkbox]:checked + label.yellow:before{
+	color: #F4D03F;
+}
+
+#search-div label.yellow:before{
+	border-color: #F4D03F;
+}
+
 /*---------------------------- RESULT DIV ----------------------------*/
 
 .hidden{
@@ -361,7 +453,7 @@ input.big.yellow:focus {
 
 #trackTags{
 	height: 20px;
-	margin-top: 50px;
+	margin-top: 20px;
 	padding: 0px 20px;
 }
 
@@ -668,7 +760,7 @@ div.link-div.yellow a.tag:hover{
 
 	/* ------------------- inputs fields ------------------- */
 
-	input {
+	input[type=text] {
 		height: 45px;
 		font-size: 18px;
 		padding: 0px 12px;
@@ -677,21 +769,23 @@ div.link-div.yellow a.tag:hover{
 	}
 
 	/* fixing inner borders */
-	 input:nth-child(2) {
+	 input[type=text]:nth-child(2) {
 		border-right: 0px;
 		border-top-right-radius: 0px;
 		border-bottom-right-radius: 0px; 
 	}
 
-	 input:nth-child(3) {
+	 input[type=text]:nth-child(3) {
 		border-top-left-radius: 0px;
 		border-bottom-left-radius: 0px; 
 	}
-	 input.big{
+
+	 input[type=text].big{
 		height: 65px;
 		width: 100%;
 		margin-bottom: 30px;
-		font-size: 28px;		
+		font-size: 28px;
+		/*border-radius: 0px;*/		
 	}
 	#input-field-controls{
 		margin-top: 15px;
@@ -846,7 +940,7 @@ div.link-div.yellow a.tag:hover{
 
 	/* ------------------- inputs fields ------------------- */
 
-	input {
+	input[type=text] {
 		height: 40px;
 		width: 100%;
 		font-size: 16px;
@@ -857,12 +951,12 @@ div.link-div.yellow a.tag:hover{
 	}
 
 	/* fixing inner borders */
-	 input:nth-child(2), input:nth-child(3) {
+	 input[type=text]:nth-child(2), input[type=text]:nth-child(3) {
 	 	border-radius: 8px;
 	 	border: 1px solid #7f8c8d;
 	}
 
-	 input.big{
+	 input[type=text].big{
 		height: 60px;
 		width: 100%;
 		margin-bottom: 20px;

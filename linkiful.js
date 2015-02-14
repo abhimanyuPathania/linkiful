@@ -8,6 +8,11 @@ var LINKIFUL = {
 	tagsField : document.querySelector("#tags"),
 	save : document.querySelector("#save"),
 	cancel : document.querySelector("#cancel"),
+
+	searchInput : document.querySelector("#searchInput"),
+	searchButton : document.querySelector("#searchButton"),
+	tagSearchCheckBox: document.querySelector("#tagSearchCheckBox"),
+
 	trackTagsDiv : document.querySelector("#trackTags"),
 	result: document.querySelector("#result"),
 	log: document.querySelector("#log"),
@@ -51,6 +56,9 @@ var LINKIFUL = {
 	// two event handlers on cancel with same event
 	LINKIFUL.cancel.addEventListener("mouseup", cancelEdit, false);
 	LINKIFUL.cancel.addEventListener("mouseup", cancelNewInput, false);
+
+	LINKIFUL.searchButton.addEventListener("mouseup", linkSearch, false);
+	
 	LINKIFUL.changeTheme.addEventListener("mouseup", flipTheme,false);
 	LINKIFUL.restore.addEventListener("mouseup", restoreLinks, false);
 
@@ -271,23 +279,35 @@ function setNewInput(e) {
 
 function filterTags(e) {
 
-	if (e.button !== 0) {
+	if (e && e.button !== 0) {
 		return false;
 	}
 
-	var tagName = this.getAttribute("data-tag");
-	// set filtered flag
-	LINKIFUL.filtered = true;
+	// testing on 14/21/15
+	var checkFlags = checkEditNewInputFlags();
+	if (typeof checkFlags === "string" && checkFlags !== true) {
 
-	//if clicked tag already in tagsFiltered array- return
-	if (LINKIFUL.tagsFiltered.indexOf(tagName) !== -1) {
+		LINKIFUL.log.innerHTML = checkFlags;
 		return false;
-	} else {
-		//else push it
-		LINKIFUL.tagsFiltered.push(tagName);
+
 	}
-	
-	var allKeys = Object.keys(LINKIFUL.allLinks);
+
+	// if came through tag click
+	if (e) {
+
+		var tagName = this.getAttribute("data-tag");
+		// set filtered flag
+		LINKIFUL.filtered = true;
+
+		//if clicked tag already in tagsFiltered array- return
+		if (LINKIFUL.tagsFiltered.indexOf(tagName) !== -1) {
+			return false;
+		} else {
+			//else push it
+			LINKIFUL.tagsFiltered.push(tagName);
+		}
+	}
+
 	var filteredKeys = getFilterTagsKeys();
 	clearLog();
 	displayLinks(filteredKeys);
@@ -298,6 +318,15 @@ function removeTrackTag(e) {
 
 	if (e.button !== 0) {
 		return false;
+	}
+
+	// testing on 14/21/15
+	var checkFlags = checkEditNewInputFlags();
+	if (typeof checkFlags === "string" && checkFlags !== true) {
+
+		LINKIFUL.log.innerHTML = checkFlags;
+		return false;
+
 	}
 
 	var trackTagName = this.getAttribute("data-tag");
@@ -450,6 +479,60 @@ function flipTheme (e) {
 
 }
 
+function linkSearch (e) {
+
+	if (e.button !== 0) {
+			return false;
+		}
+
+	console.log("link search");
+	var searchedKeys, allKeys, searchString, searchStringArr, escapeWords;
+
+	searchString = LINKIFUL.searchInput.value;
+	if (searchString === "") {
+		return false;
+	}
+
+	if (LINKIFUL.tagSearchCheckBox.checked) {
+
+		var tagString = sanitizeTagString(searchString);
+		// use the same process as done for filtering tags by click;
+		LINKIFUL.filtered = true;
+		LINKIFUL.tagsFiltered = tagString.split(",");
+		filterTags();
+
+	} else {
+
+		// we are using text based search
+		escapeWords = {"the":true, "is":true, "an":true, "a":true, "to":true, };
+		searchedKeys = [];
+		allKeys = Object.keys(LINKIFUL.allLinks);
+		searchStringArr = searchString.split(" ");
+
+		for (var i = 0, len1 = searchStringArr.length; i < len1; i += 1) {
+
+			if (searchStringArr[i] in escapeWords) {
+				console.log("escape word hit");
+				continue;
+			}
+
+			for (var j = 0, len2 = allKeys.length; j < len2; j += 1) {
+				
+				var text = LINKIFUL.allLinks[allKeys[j]].text.toLowerCase();
+				var	lookingFor = searchStringArr[i].toLowerCase();
+
+				if (text.indexOf(lookingFor) !== -1) {
+					searchedKeys.push(allKeys[j]);
+				}
+			}
+		}
+
+		searchedKeys =  removeDuplicates(searchedKeys);
+		clearAllflags();
+		displayLinks(searchedKeys);
+	}
+}
+
 //------------------------ EVENT HANDLER HELPER FUNCTIONS ------------------------//
 
 function displayLinks(ob) {
@@ -487,7 +570,6 @@ function setupTheme () {
 	} 
 
 	if (LINKIFUL.theme === "yellow") {
-		console.log("setup theme yellow running");
 		var colorToToggle = document.querySelectorAll(".pink");
 		var shadeToToggle = document.querySelectorAll(".light");
 
@@ -553,6 +635,8 @@ function clearInputFields() {
 		//clear input fields
 		LINKIFUL.allLinkInputs[i].value = "";
 	}
+	LINKIFUL.searchInput.value = "";
+	//LINKIFUL.tagSearchCheckBox.checked = false;
 }
 
 function clearWrapper() {
@@ -582,6 +666,7 @@ function clearAllflags() {
 	LINKIFUL.reversed = false;
 	LINKIFUL.filtered = false;
 	LINKIFUL.tagsFiltered = [];
+	LINKIFUL.search = false;
 
 }
 
