@@ -29,7 +29,6 @@
 * {
 	padding: 0;
 	margin: 0;
-	/*transition: all 0.3s ease-in-out;*/
 	transition: color 0.3s ease-in-out,
 				background-color 0.3s ease-in-out,
 				box-shadow 0.3s ease-in-out,
@@ -68,7 +67,8 @@ body.dark{
 	background-color: #757D75;
 }
 
-/*---------------------------- main wrappers/header ----------------------------*/
+/*-------------------------------------- MAIN WRAPPER AND HEADER --------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------*/
 
 #header {
 	padding: 60px 0;
@@ -91,7 +91,7 @@ body.dark{
 	margin-top: 40px;
 }
 
-/*light pink theme*/
+/************* light pink theme *************/
 #header.light {
 	background-color: #ecf0f1;
 }
@@ -103,7 +103,7 @@ body.dark{
 	text-shadow: 0px 0px 4px rgba(246,36,89, 0.6);
 }
 
-/*dark yellow theme*/
+/************* dark yellow theme *************/
 
 #header.dark {
 	background-color: #505050;
@@ -119,7 +119,8 @@ body.dark{
 	text-shadow: 0px 0px 6px rgba(255,255,102,0.8);
 }
 
-/*---------------------------- buttons ----------------------------*/
+/*------------------------------------------- BUTTONS ---------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------*/
 
 button, a.button{
 	border-radius: 5px;
@@ -151,7 +152,8 @@ button.control {
 				border 0.3s ease-in-out;
 }
 
-/* light theme */
+/************* light theme *************/
+
 button.control.light{
 	color: #7f8c8d;
 	border: 1px solid #ecf0f1;
@@ -167,7 +169,7 @@ button.control.light:active{
 	background-color: #bdc3c7;
 }
 
-/* dark theme */
+/************* dark theme *************/
 
 button.control.dark{
 	color: #fff;
@@ -204,13 +206,14 @@ button.theme:active, a.button.theme:active{
 }
 
 button.theme.big{
-	border-radius: 10px;
+	border-radius: 5px;
 	font-weight: 400;
 	width:120px;
 	height: 50px;
 	font-size: 24px;
 }
-	/* light theme*/
+
+	/************** light theme **************/
 
 button.theme.big.light.disabled{
 	background-color: #ecf0f1;
@@ -218,7 +221,8 @@ button.theme.big.light.disabled{
 button.theme.big.light.disabled:hover{
 	background-color: #ecf0f1;
 }
-	/* dark theme*/
+
+	/************** dark theme **************/
 
 button.theme.big.dark.disabled{
 	background-color: #bdc3c7;
@@ -232,7 +236,8 @@ button.theme.big.disabled:active{
 	padding:8px 12px;
 }
 
-/* the pink theme */
+
+/************** pink theme **************/
 
 button.pink, a.button.pink{
 	background-color: #F47983;
@@ -245,7 +250,7 @@ button.pink:active, a.button.pink:active{
 	background-color: #F47983;
 }
 
-/* dark yello theme */
+/************** yellow theme **************/
 
 button.yellow, a.button.yellow{
 	background-color: #F4D03F;
@@ -259,17 +264,19 @@ button.yellow:active, a.button.yellow:active{
 }
 
 
-/*---------------------------- input fields ----------------------------*/
+/*---------------------------------------------- INPUT FIELDS ----------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
  input[type="text"] {
-	/*border: 1px solid #7f8c8d;*/
+
 	height: 50px;
 	width: 50%;
 	font-size: 24px;
 	padding: 0px 40px;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
-/* light theme */
+/*************** light theme ***************/
 input.light {
 	border: 1px solid #7f8c8d;
 	color: #7f8c8d;
@@ -278,7 +285,7 @@ input.light:focus {
 	text-shadow: 0px 0px 2px rgba(127, 140, 141, 0.8);
 }
 
-/* dark theme */
+/*************** dark theme ***************/
 input.dark {
 	border: 1px solid #ecf0f1;
 	color: #ecf0f1;
@@ -288,6 +295,7 @@ input.dark {
 input.dark:focus ,input.dark:hover{
 	text-shadow: 0px 0px 2px rgba(241, 196, 15, 0.8);
 }
+
 
 /* fixing inner borders */
  input[type=text]:nth-child(2) {
@@ -318,9 +326,8 @@ input.dark:focus ,input.dark:hover{
 	text-align: center;
 }
 
-
-
-/* -------- search div, checkbox and label styles -------- */
+/* ------------------------------ SEARCH INPUT,SEARCH BUTTON AND CHECKBOX ------------------------------------- */
+/*---------------------------------------------------------------------------------------------------------------*/
 
 #search-div {
 	margin-top: 60px;
@@ -346,7 +353,8 @@ input.dark:focus ,input.dark:hover{
 	width: 20%;
 	height: 40px;
 	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px; 
+	border-bottom-left-radius: 0px;
+	font-weight: 400; 
 }
 
 #search-div label{
@@ -381,7 +389,7 @@ input.dark:focus ,input.dark:hover{
 }
 
 
-/* the pink theme */
+/********** the pink theme **********/
 
 input.big.pink{
 	color: #F62459;
@@ -413,8 +421,7 @@ input.big.pink:focus {
 }
 
 
-
-/* dark yellow theme */
+/*********** dark yellow theme ***********/
 
 input.big.yellow{
 	color: #FFFF66;
@@ -444,7 +451,10 @@ input.big.yellow:focus {
 	border-color: #F4D03F;
 }
 
-/*---------------------------- RESULT DIV ----------------------------*/
+
+
+/*---------------------------------------------- RESULT DIV ----------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
 
 .hidden{
 	height: 0;
@@ -468,7 +478,7 @@ input.big.yellow:focus {
 div.link-div{
 	padding: 5px 20px;
 	margin-bottom: 10px;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 div.link-div .content a{
@@ -521,7 +531,7 @@ div.link-div .content a, div.link-div .content span{
 						font-size 0.2s ease-in-out;
 }
 
-/* pink theme */
+/********** pink theme **********/
 
 div.link-div.pink{
 	background-color: rgba(255,179,167, 0.3);
@@ -564,7 +574,7 @@ div.link-div.pink a.tag:hover{
 }
 
 
-/* dark yellow theme */
+/*********** dark yellow theme ***********/
 
 div.link-div.yellow{
 	background-color: rgba(241, 196, 15,0.3);
@@ -610,7 +620,10 @@ div.link-div.yellow a.tag:hover{
 }
 
 
-/*---------------------------- footer ----------------------------*/
+
+
+/*------------------------------------------------ FOOTER ------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 
 #footer{
 	position: fixed;
@@ -641,7 +654,7 @@ div.link-div.yellow a.tag:hover{
 	font-size: 20px;
 }
 
-/* pink theme */
+/*********** pink theme ***********/
 
 #footer.light {
 	background-color: #ecf0f1;
@@ -651,11 +664,15 @@ div.link-div.yellow a.tag:hover{
 	color: #F62459;
 }
 
-/* dark yellow  theme */
+/*********** yellow theme ***********/
 
 #footer.dark {
 	background-color: rgba(80,80,80, 0.9);
 	box-shadow: 0 -5px 5px 0px rgba(241, 196, 15, 0.3);
+}
+
+#footer button.theme.yellow, #footer a.button.theme.yellow{
+	font-weight: 400;
 }
 
 #log.yellow {
@@ -679,7 +696,10 @@ div.link-div.yellow a.tag:hover{
 	display: block;
 }
 
-/*---------------------------- meida queries ----------------------------*/
+
+
+/*--------------------------------------------- MEDIA QUERIES ---------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------*/
 
 @media screen and (max-width: 999px){
 	#content-wrapper{    
@@ -747,7 +767,7 @@ div.link-div.yellow a.tag:hover{
 	}
 
 	button.theme.big{
-		border-radius: 6px;
+		border-radius: 5px;
 		font-weight: 400;
 		width: 100px;
 		height: 40px;
@@ -758,13 +778,13 @@ div.link-div.yellow a.tag:hover{
 		padding: 4px 8px;
 	}
 
-	/* ------------------- inputs fields ------------------- */
+	/* ------------------- Inputs Fields(501-800px) ------------------- */
 
 	input[type=text] {
 		height: 45px;
 		font-size: 18px;
 		padding: 0px 12px;
-		border-radius: 8px;
+		border-radius: 5px;
 		text-align: center;
 	}
 
@@ -790,9 +810,44 @@ div.link-div.yellow a.tag:hover{
 	#input-field-controls{
 		margin-top: 15px;
 	}
+
+	#search-div {
+		margin-top: 40px;
+	}
+
+	#search-div input[type="text"] {
+		width: 70%;
+		height: 35px;
+		font-size: 19px;
+		padding: 0 10px;
+		text-align: left; 
+	}
+
+	#search-div button {
+		width: 30%;
+		height: 35px;
+		font-weight: 400; 
+	}
+
+	#search-div label{  
+	    padding-left: 30px;  
+	}
+
+	#search-div label:before{
+		width: 18px;
+		height: 18px;
+		position: absolute;
+		line-height: 18px;
+	}
+
+	#search-div input[type=checkbox]:checked + label:before {
+		font-size: 18px;
+		line-height: 18px;
+	}
+
 	#trackTags{
 		height: auto;
-		margin-top: 30px;
+		margin-top: 10px;
 		padding: 4px 10px;
 		overflow: auto;
 
@@ -851,7 +906,7 @@ div.link-div.yellow a.tag:hover{
 		background-color: #F4D03F;
 	}
 
-	/*----------- footer -----------*/
+	/*----------------- Footer(501-800px) -------------------*/
 
 	#footer{
 		padding-left: 10px;
@@ -927,7 +982,7 @@ div.link-div.yellow a.tag:hover{
 	}
 
 	button.theme.big{
-		border-radius: 6px;
+		border-radius: 5px;
 		font-weight: 400;
 		width: 90px;
 		height: 40px;
@@ -938,7 +993,7 @@ div.link-div.yellow a.tag:hover{
 		padding: 4px 8px;
 	}
 
-	/* ------------------- inputs fields ------------------- */
+	/* ------------------- Inputs Fields (500px) ------------------- */
 
 	input[type=text] {
 		height: 40px;
@@ -952,8 +1007,8 @@ div.link-div.yellow a.tag:hover{
 
 	/* fixing inner borders */
 	 input[type=text]:nth-child(2), input[type=text]:nth-child(3) {
-	 	border-radius: 8px;
-	 	border: 1px solid #7f8c8d;
+	 	border-radius: 5px;
+	 	border: 1px solid #ecf0f1;
 	}
 
 	 input[type=text].big{
@@ -967,9 +1022,48 @@ div.link-div.yellow a.tag:hover{
 		margin-top: 10px;
 	}
 
+
+
+	#search-div {
+		margin-top: 30px;
+		width: 100%;
+	}
+
+	#search-div input[type="text"] {
+		width: 70%;
+		height: 35px;
+		font-size: 18px;
+		padding: 0 5px;
+		text-align: center;
+		vertical-align: top; 
+	}
+
+	#search-div button {
+		width: 30%;
+		height: 35px;
+		font-weight: 400;
+		vertical-align: top; 
+	}
+
+	#search-div label{  
+	    padding-left: 25px;  
+	}
+
+	#search-div label:before{
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		line-height: 16px;
+	}
+
+	#search-div input[type=checkbox]:checked + label:before {
+		font-size: 16px;
+		line-height: 16px;
+	}
+
 	#trackTags{
 		height: auto;
-		margin-top: 20px;
+		margin-top: 8px;
 		padding: 4px 5px 4px 10px;
 		overflow: auto; 
 	}
@@ -1060,7 +1154,7 @@ div.link-div.yellow a.tag:hover{
 		color: #fff;
 	}
 
-	/*----------- footer -----------*/
+	/*--------------- Footer (500px) ---------------*/
 
 	#footer{
 		padding-left: 5px;
@@ -1069,7 +1163,7 @@ div.link-div.yellow a.tag:hover{
 	}
 
 	#footer.light {
-		background-color: rgba(236,240,241,0.75);
+		background-color: rgba(236,240,241,0.9);
 	}
 
 	#footer button, #footer a.button{

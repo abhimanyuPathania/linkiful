@@ -58,7 +58,7 @@ var LINKIFUL = {
 	LINKIFUL.cancel.addEventListener("mouseup", cancelNewInput, false);
 
 	LINKIFUL.searchButton.addEventListener("mouseup", linkSearch, false);
-	
+	LINKIFUL.tagSearchCheckBox.addEventListener("change", updatePlaceholder, false);
 	LINKIFUL.changeTheme.addEventListener("mouseup", flipTheme,false);
 	LINKIFUL.restore.addEventListener("mouseup", restoreLinks, false);
 
@@ -66,12 +66,15 @@ var LINKIFUL = {
 		LINKIFUL.allLinkInputs[i].addEventListener("input", setNewInput, false);
 	}
 
-	setupTheme();
 	displayLinks(LINKIFUL.allLinks);
 
 }());
 
-// EVENT HANDLERS
+
+
+
+
+//******************************************* EVENT HANDLERS **************************************************//
 
 function addLink(e) {
 	
@@ -116,15 +119,12 @@ function addLink(e) {
 			for (var i=0; i< newTagsArr.length;i += 1) {
 
 				if (LINKIFUL.tagsFiltered.indexOf(newTagsArr[i]) !== -1) {
-
 					checkNewTags = true;
 					break;
-
 				}
 
 			}
 			if (checkNewTags) {
-
 				LINKIFUL.reversed ? displayLinks(getFilterTagsKeys().reverse()) : displayLinks(getFilterTagsKeys());
 				return false;
 			} else {
@@ -283,7 +283,6 @@ function filterTags(e) {
 		return false;
 	}
 
-	// testing on 14/21/15
 	var checkFlags = checkEditNewInputFlags();
 	if (typeof checkFlags === "string" && checkFlags !== true) {
 
@@ -311,7 +310,12 @@ function filterTags(e) {
 	var filteredKeys = getFilterTagsKeys();
 	clearLog();
 	displayLinks(filteredKeys);
-	createTrackTags();
+	
+	if (filteredKeys.length > 0){
+		// if tag was searched and nothing is found
+		createTrackTags();
+	}
+	
 }
 
 function removeTrackTag(e) {
@@ -320,13 +324,10 @@ function removeTrackTag(e) {
 		return false;
 	}
 
-	// testing on 14/21/15
 	var checkFlags = checkEditNewInputFlags();
 	if (typeof checkFlags === "string" && checkFlags !== true) {
-
 		LINKIFUL.log.innerHTML = checkFlags;
 		return false;
-
 	}
 
 	var trackTagName = this.getAttribute("data-tag");
@@ -485,7 +486,6 @@ function linkSearch (e) {
 			return false;
 		}
 
-	console.log("link search");
 	var searchedKeys, allKeys, searchString, searchStringArr, escapeWords;
 
 	searchString = LINKIFUL.searchInput.value;
@@ -504,7 +504,7 @@ function linkSearch (e) {
 	} else {
 
 		// we are using text based search
-		escapeWords = {"the":true, "is":true, "an":true, "a":true, "to":true, };
+		escapeWords = {"the":true, "is":true, "an":true, "a":true, "to":true, }; // improve this
 		searchedKeys = [];
 		allKeys = Object.keys(LINKIFUL.allLinks);
 		searchStringArr = searchString.split(" ");
@@ -533,7 +533,16 @@ function linkSearch (e) {
 	}
 }
 
-//------------------------ EVENT HANDLER HELPER FUNCTIONS ------------------------//
+function updatePlaceholder(e) {
+
+	if (LINKIFUL.tagSearchCheckBox.checked) {
+		LINKIFUL.searchInput.setAttribute("placeholder", "comma seperated tags");
+	} else {
+		LINKIFUL.searchInput.setAttribute("placeholder", "enter search text");
+	}
+}
+
+//************************************ EVENT HANDLER HELPER FUNCTIONS *******************************************//
 
 function displayLinks(ob) {
 	clearWrapper();
@@ -557,7 +566,7 @@ function displayLinks(ob) {
 		clearLog();
 
 	} else{
-		LINKIFUL.result.innerHTML = "No links yet";
+		LINKIFUL.result.innerHTML = "No links (x_x)";
 	}
 	
 }
@@ -597,12 +606,12 @@ function getFilterTagsKeys() {
 	var allKeys = Object.keys(LINKIFUL.allLinks);
 	var filteredKeys = allKeys.filter(function (v) {
 		
-		var tags = LINKIFUL.allLinks[v].tags;
+		var tagsArr = LINKIFUL.allLinks[v].tags.split(",");
 		var check = true;
 		
 		for (var i=0; i< LINKIFUL.tagsFiltered.length; i += 1) {
 			
-			if (tags.indexOf(LINKIFUL.tagsFiltered[i]) === -1) {
+			if (tagsArr.indexOf(LINKIFUL.tagsFiltered[i]) === -1) {
 				check = false;
 				break;
 			}
@@ -670,7 +679,10 @@ function clearAllflags() {
 
 }
 
-// HTML GENERATING FUNCTIONS
+
+
+
+//****************************************** HTML GENERATING FUNCTIONS ******************************************//
 
 function createLinkDiv(key) {
 
@@ -784,7 +796,10 @@ function createTrackTags () {
 	}
 }
 
-//GENERAL HELPER FUNCTIONS
+
+
+
+//**************************************** GENERAL HELPER FUNCTIONS ****************************************//
 
 function sanitizeURL(url) {
 
