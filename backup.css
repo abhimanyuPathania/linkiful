@@ -1,0 +1,199 @@
+* {
+	padding: 0;
+	margin: 0;
+
+	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+	 box-sizing: border-box;
+}
+
+body, a, button, input{ 
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	font-weight: 300;
+}
+
+a {
+	text-decoration: none;
+}
+
+body.light{
+	color: #7f8c8d;
+	background-color: #fff;
+}
+
+body.dark{
+	color: #ecf0f1;
+	background-color: #404040;
+}
+
+/*-------------------------------------- MAIN WRAPPER AND HEADER --------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------*/
+
+#header {
+	padding: 60px 0;
+}
+
+#header h1 a{
+	font-weight: 400;
+	font-size: 72px;
+}
+#header h1{
+	text-align: center;
+}
+#header p{
+	text-align: center;
+}
+
+#content-wrapper{
+	max-width: 1000px;
+	margin: 40px auto;
+}
+
+/************* light pink theme *************/
+#header.light {
+	background-color: #ecf0f1;
+}
+#header.light a {
+	color: #7f8c8d;
+}
+#header h1 span.pink{
+	color: #F47983;
+	text-shadow: 0px 0px 4px rgba(246,36,89, 0.6);
+}
+
+/************* dark yellow theme *************/
+
+#header.dark {
+	background-color: #505050;
+	box-shadow: inset  0 -8px 8px -8px #404040;
+}
+
+#header.dark a {
+	color: #ecf0f1;
+}
+
+#header h1 span.yellow{
+	color: #FFFF66;
+	text-shadow: 0px 0px 6px rgba(255,255,102,0.8);
+}
+
+/*------------------------------------------ CONTENT WRAPPER ------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------*/
+
+#content-wrapper h2 {
+	font-size: 36px;
+	font-weight: 400;
+	margin-bottom: 40px;
+}
+
+#content-wrapper h4{
+	font-weight: 300;
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+#result {
+	padding: 20px;
+	font-family: 'Inconsolata', Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	border-radius: 5px;
+}
+
+#result img{
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+#content-wrapper.pink h2{
+	color: #F47983;
+}
+
+#content-wrapper.pink #result{
+	border: 1px solid #F47983;
+	box-shadow: 0px 0px 8px 0px #F47983;
+}
+
+#content-wrapper.yellow h2{
+	color: #F4D03F;
+}
+
+#content-wrapper.yellow #result{
+	border: 1px solid #F4D03F;
+	box-shadow: 0px 0px 8px 0px #F4D03F;
+}
+
+
+/*------------------------------------------ MEDIA QUERIES ------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------*/
+
+@media screen and (max-width: 999px){
+	#content-wrapper{    
+		padding:0 15px;
+	}
+}
+
+@media screen and (min-width: 501px) and (max-width: 800px) {
+
+	#header {
+		padding: 50px 5px;
+	}
+	#header h1 a {
+		font-size: 64px;
+	}
+	#content-wrapper {
+		margin-top: 30px;
+		padding:0 10px;
+	}
+
+	#content-wrapper h2 {
+		font-size: 30px;
+		margin-bottom: 20px;
+	}
+
+	#content-wrapper h4{
+		font-size: 22px;
+		margin-bottom: 20px;
+	}
+
+	#result {
+		padding: 10px;
+		font-size: 17px;
+		overflow: scroll;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	body, a, button, input {
+		font-size: 16px;
+	}
+
+	#header {
+		padding: 40px 5px;
+	}
+	#header h1 a {
+		font-size: 48px;
+	}
+	#content-wrapper {
+		margin-top: 20px;
+		padding:0 5px;
+	}
+
+
+	#content-wrapper h2 {
+		font-size: 28px;
+		margin-bottom: 20px;
+	}
+
+	#content-wrapper h4{
+		font-size: 20px;
+		margin-bottom: 15px;
+	}
+
+	#result {
+		padding: 8px;
+		font-size: 16px;
+		overflow: scroll;
+	}
+
+}

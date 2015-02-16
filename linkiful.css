@@ -405,6 +405,8 @@ input.big.pink::-webkit-input-placeholder{
     color: #F62459;
 }
 
+
+
 input.big.pink:hover,
 input.big.pink:focus {
 	text-shadow: 0px 0px 1px rgba(246,36,89, 0.7);
@@ -413,9 +415,14 @@ input.big.pink:focus {
 #search-div input[type=text].pink {
 	color: #F47983;
 	border-color: #F47983;
+
+}
+#search-div input[type="text"].pink::-webkit-input-placeholder{
+    color: #F47983;
+}
+#search-div input[type=text].pink:focus{
 	text-shadow: 0px 0px 1px rgba(244,121,131, 0.8);
 }
-
 #search-div label.pink:before{
 	border-color: #F47983;
 }
@@ -445,6 +452,9 @@ input.big.yellow:focus {
 #search-div input[type=text].yellow {
 	color: #F4D03F;
 	border-color: #F4D03F;
+}
+#search-div input[type="text"].yellow::-webkit-input-placeholder{
+    color: #F4D03F;
 }
 
 #search-div input[type=checkbox]:checked + label.yellow:before{
