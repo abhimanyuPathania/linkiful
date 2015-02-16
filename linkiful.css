@@ -64,7 +64,7 @@ body.light{
 
 body.dark{
 	color: #ecf0f1;
-	background-color: #757D75;
+	background-color: #404040;
 }
 
 /*-------------------------------------- MAIN WRAPPER AND HEADER --------------------------------------*/
@@ -107,7 +107,7 @@ body.dark{
 
 #header.dark {
 	background-color: #505050;
-	box-shadow: inset  0 -8px 8px -8px #757D75;
+	box-shadow: inset  0 -8px 8px -8px #404040;
 }
 
 #header.dark a {
@@ -128,10 +128,10 @@ button, a.button{
 	padding: 5px 10px;
 	font-size: 16px;
 
-	-webkit-transition: background-color 0.2s ease-in-out,
-    					color 0.2s ease-in-out;
-    		transition: background-color 0.2s ease-in-out,
-        				color 0.2s ease-in-out;
+	-webkit-transition: background-color 0.3s ease-in-out,
+    					color 0.3s ease-in-out;
+    		transition: background-color 0.3s ease-in-out,
+        				color 0.3s ease-in-out;
 }
 
 button:active ,a.button:active{
@@ -173,18 +173,20 @@ button.control.light:active{
 
 button.control.dark{
 	color: #fff;
-	background-color: rgba(160,160,160, 0.8);
-	border: 1px solid rgba(160,160,160, 0.8);
+	background-color: #505050;
+	border: 1px solid #757D75;
 	padding:3px 8px;
 }
 
 button.control.dark:hover {
-	background-color: #808080;
+	background-color: #757D75;
 }
 
 button.control.dark:active{
-	background-color: rgba(160,160,160, 0.8);
+	background-color: #757D75;
 }
+
+
 
 button.theme, a.button.theme{
 	font-weight: 300;
@@ -225,11 +227,11 @@ button.theme.big.light.disabled:hover{
 	/************** dark theme **************/
 
 button.theme.big.dark.disabled{
-	background-color: #bdc3c7;
+	background-color: #505050;
 	color: #757D75;
 }
 button.theme.big.dark.disabled:hover{
-	background-color: #bdc3c7;
+	background-color: #505050;
 }
 
 button.theme.big.disabled:active{
@@ -254,10 +256,11 @@ button.pink:active, a.button.pink:active{
 
 button.yellow, a.button.yellow{
 	background-color: #F4D03F;
-	color:#fff;
+	color:#505050;
 }
 button.yellow:hover, a.button.yellow:hover{
 	background-color: #FFB61E;
+	color:#fff;
 }
 button.yellow:active, a.button.yellow:active{
 	background-color: #F4D03F;
@@ -289,7 +292,7 @@ input.light:focus {
 input.dark {
 	border: 1px solid #ecf0f1;
 	color: #ecf0f1;
-	background-color: #757D75;
+	background-color: #404040;
 	cursor: url(yellow_cursor_2.cur), auto;
 }
 input.dark:focus ,input.dark:hover{
@@ -354,7 +357,8 @@ input.dark:focus ,input.dark:hover{
 	height: 40px;
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
-	font-weight: 400; 
+	font-weight: 400;
+	font-size: 18px; 
 }
 
 #search-div label{
@@ -609,7 +613,8 @@ div.link-div.yellow a.tag:hover{
 }
 
 #trackTags a.yellow {
-	color: #fff;
+	color: #404040;
+	font-weight: 400;
 	background-color: rgba(244,208,63, 0.9);
 	border: 1px solid rgba(244,208,63, 0.9);
 }
@@ -617,6 +622,7 @@ div.link-div.yellow a.tag:hover{
 #trackTags a.yellow:hover {
 	border: 1px solid rgba(244,208,63, 0.9);
 	background-color: rgba(241, 196, 15,0.3);
+	color :#fff;
 }
 
 
@@ -673,6 +679,7 @@ div.link-div.yellow a.tag:hover{
 
 #footer button.theme.yellow, #footer a.button.theme.yellow{
 	font-weight: 400;
+	/*color: #505050;*/
 }
 
 #log.yellow {
@@ -904,6 +911,7 @@ div.link-div.yellow a.tag:hover{
 
 	button.yellow:hover, a.button.yellow:hover {
 		background-color: #F4D03F;
+		color: #505050;
 	}
 
 	/*----------------- Footer(501-800px) -------------------*/
@@ -1147,6 +1155,7 @@ div.link-div.yellow a.tag:hover{
 
 	button.yellow:hover, a.button.yellow:hover {
 		background-color: #F4D03F;
+		color: #505050;
 	}
 
 	div.link-div.yellow a.tag:hover {

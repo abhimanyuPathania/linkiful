@@ -529,6 +529,7 @@ function linkSearch (e) {
 
 		searchedKeys =  removeDuplicates(searchedKeys);
 		clearAllflags();
+		LINKIFUL.trackTagsDiv.innerHTML = ""; // clear filter html if there;
 		displayLinks(searchedKeys);
 	}
 }
@@ -645,7 +646,7 @@ function clearInputFields() {
 		LINKIFUL.allLinkInputs[i].value = "";
 	}
 	LINKIFUL.searchInput.value = "";
-	//LINKIFUL.tagSearchCheckBox.checked = false;
+	LINKIFUL.tagSearchCheckBox.checked = false;
 }
 
 function clearWrapper() {
