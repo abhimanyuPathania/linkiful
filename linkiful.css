@@ -470,6 +470,22 @@ input.big.yellow:focus {
 /*---------------------------------------------- RESULT DIV ----------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------------*/
 
+.no-links{
+	text-align: center;
+	font-size: 10vw;
+}
+
+/*  pink theme  */
+.no-links.pink{
+	color: #ecf0f1;
+}
+/*  yellow theme  */
+.no-links.yellow{
+	color: #505050;
+}
+
+
+
 .hidden{
 	height: 0;
 	visibility: hidden;

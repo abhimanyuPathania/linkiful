@@ -1,5 +1,7 @@
 
 (function () { 
+// put the whole code in an anonymous function, (to sanitize namespace) and
+// call it immediately
 
 var LINKIFUL = {
 	allLinkInputs: document.querySelectorAll("#linkInputWrapper input[type=text]"),
@@ -37,23 +39,27 @@ var LINKIFUL = {
 (function() {
 
 	//this is the only function that runs on document load
-	console.log("anon function"); // remove this
+	console.log("Welcome to linkiful"); // remove this
 	
 	var linkifulJSON = localStorage.getItem("linkiful");
 	if (linkifulJSON) {
 		LINKIFUL.allLinks = JSON.parse(linkifulJSON);
 	} else {
+		//first time usage
 		LINKIFUL.allLinks = {};
 	}
 
-	// setup theme as soon as possible
+	// setup theme as soon as possible. Either get it from the localStorage or
+	// set it to "pink" as the default
 	LINKIFUL.theme = localStorage.getItem("linkifulTheme") || "pink";
 	setupTheme();
 
+
+	//register events
 	LINKIFUL.save.addEventListener("mouseup", addLink, false);
 	LINKIFUL.clearStorage.addEventListener("mouseup", clearStorage, false);
 
-	// two event handlers on cancel with same event
+		// two event handlers on cancel with same event
 	LINKIFUL.cancel.addEventListener("mouseup", cancelEdit, false);
 	LINKIFUL.cancel.addEventListener("mouseup", cancelNewInput, false);
 
@@ -66,6 +72,7 @@ var LINKIFUL = {
 		LINKIFUL.allLinkInputs[i].addEventListener("input", setNewInput, false);
 	}
 
+	//display the links
 	displayLinks(LINKIFUL.allLinks);
 
 }());
@@ -77,11 +84,37 @@ var LINKIFUL = {
 //******************************************* EVENT HANDLERS **************************************************//
 
 function addLink(e) {
+
+	/*
+	This function is the core of this application's logic. Runs when user clicks the
+	"save" button.
 	
+	//ADDING NEW LINK
+	Every link which user saves is stored in an object with the properties
+	"text", "url" and "tags". These, then, become consistent for every individual link
+	object and we are able to mimic an object style database.
+
+	This link object is then stored in the main "LINKIFUL.allLinks" object.
+	Key in this case is the current time as returned by "Date.now()" function. Hence,
+	every link object is a unique property of the "LINKIFUL.allLinks" object.
+
+	"LINKIFUL.allLinks" object is the working buffer object which is deflated using "JSON.stringify" 
+	and the returned JSON string is stored in localSotage with key "linkiful".
+	
+	//EDITING AN EXISTING LINK	
+	This functions also handles link edits. If the edit flag, *"LINKIFUL.edit", 
+	is true, instead of saving the new link object to "allLinks", we grab the *"LINKIFUL.editKey" 
+	and overwrite the existing link object referred by the "LINKIFUL.editKey".
+
+	*"LINKIFUL.edit" and "LINKIFUL.editKey" is set by the "editLink" function
+
+	*/
+
 	if (e.button !== 0) {
 		return false;
 	}
 
+	//create new object and add the user input data to it.
 	var newLinkObj = {};
 	newLinkObj.text = LINKIFUL.textField.value;
 	newLinkObj.url = LINKIFUL.urlField.value;
@@ -107,8 +140,12 @@ function addLink(e) {
 		}
 		//remove newInput flag
 		LINKIFUL.newInput = false;
+
+		//save it to the localStorage
 		updateStorage();
 		clearLog();
+
+		//preceeding logic is just to preserve the application's state
 
 		// to see if it's filtered and see if new tags have been 
 		// already set as filters
@@ -125,6 +162,7 @@ function addLink(e) {
 
 			}
 			if (checkNewTags) {
+				// new link added has a tag in the exsisting tags filtered list
 				LINKIFUL.reversed ? displayLinks(getFilterTagsKeys().reverse()) : displayLinks(getFilterTagsKeys());
 				return false;
 			} else {
@@ -136,10 +174,11 @@ function addLink(e) {
 				}			
 			}
 		}
-		// or display all // if reversed? keep reversed
+		// no links filtered. So display all and if reversed? keep reversed
 		LINKIFUL.reversed ? displayLinks(Object.keys(LINKIFUL.allLinks).reverse()) : displayLinks(LINKIFUL.allLinks);
 
 	} else {
+		//user did not enter link text or link url. Display error
 		LINKIFUL.log.innerHTML = "please enter all fields";
 		return false;
 	}
@@ -163,15 +202,20 @@ function deleteLink(e) {
 	}
 
 	var key = this.getAttribute("data-key");
-	var displayKeys;
-	delete LINKIFUL.allLinks[key];
+	var displayKeys; //array of keys to links which are displayed after delete operation
+
+	//delete the link from buffer "allLinks" object
+	delete LINKIFUL.allLinks[key]; 
+
+	//the update the localStorage
 	updateStorage();
 	
+	//preceeding logic is to preserve the app state when diplaying after delete
 	if (LINKIFUL.filtered) {
 
 		displayKeys = getFilterTagsKeys();
-		//if reversed stay reversed!!!
 		if (LINKIFUL.reversed) {
+			//if reversed stay reversed by reversing in advance!!!
 			displayKeys.reverse();
 		}
 		// if we delete all links in the current filters
@@ -183,11 +227,13 @@ function deleteLink(e) {
 			LINKIFUL.tagsFiltered = [];
 			
 			if (!LINKIFUL.trackTagsDiv.classList.contains("hidden")) {
+				//also remove the track tags
 				LINKIFUL.trackTagsDiv.classList.add("hidden");
 			}
 
 		}
 	} else {
+		//not filtered, just display all
 		displayKeys = LINKIFUL.allLinks;
 	}
 
@@ -198,15 +244,23 @@ function deleteLink(e) {
 
 function editLink(e) {
 
+	/* This function works in tandem with the "addLinks" function. All this does is
+	set the edit flag and pass the relevent key via "LINKIFUL.editKey" property.
+	Rest of it is handled by the "addLinks" function. */
+
+	// fired on "mouseup" event of the "edit" button
+
 	if (e.button !== 0) {
 		return false;
 	}
 	clearLog();
-	// if press edit after setting new input clear flag
+
+	// if press edit after setting new input; clear the new input flag
 	if (LINKIFUL.newInput) {
 		LINKIFUL.newInput = false;
 	}
 
+	//the key of the link being edited is grabbed from the edit button itself
 	var key = this.getAttribute("data-key");
 	LINKIFUL.textField.value = LINKIFUL.allLinks[key].text;
 	LINKIFUL.urlField.value = LINKIFUL.allLinks[key].url;
@@ -232,11 +286,15 @@ function cancelEdit(e) {
 	}
 
 	if(!LINKIFUL.edit) {
+		//user clicks on the "cancel" button and we are not editing; return
+		//this also takes care of the new input scenerio. Since same event is used for both cases
 		return false;
 	}
 
 	// clear input fields filled by editLink function and clear flags
 	clearInputFields();
+
+	//clear flags
 	LINKIFUL.edit = false;
 	LINKIFUL.editKey = null;
 
@@ -254,6 +312,7 @@ function cancelNewInput(e) {
 	}
 
 	if (!LINKIFUL.newInput) {
+		// handles the cancelEdit function that is fired for the same event
 		return false;
 	}
 
@@ -273,7 +332,21 @@ function setNewInput(e) {
 	if (LINKIFUL.edit) {
 		return false;
 	}
-	LINKIFUL.cancel.classList.remove("disabled");
+
+	// since "input" event fires right on focus(removing placeholder) in IE
+	// only enable the "cancel" button if user actually has entered some data
+	var enable = false;
+	for (var i = 0, len = LINKIFUL.allLinkInputs.length; i<len; i += 1) {
+		if (LINKIFUL.allLinkInputs[i].value.length > 0) {
+			enable = true;
+			break;
+		}
+	}
+	if (enable) {
+		LINKIFUL.cancel.classList.remove("disabled");
+	}
+
+	//set the newInput flag
 	LINKIFUL.newInput = true;
 }
 
@@ -286,6 +359,7 @@ function filterTags(e) {
 	var checkFlags = checkEditNewInputFlags();
 	if (typeof checkFlags === "string" && checkFlags !== true) {
 
+		//user should complete/cancel the new input/edit first
 		LINKIFUL.log.innerHTML = checkFlags;
 		return false;
 
@@ -307,12 +381,15 @@ function filterTags(e) {
 		}
 	}
 
+	//after adding it to the "LINKIFUL.tagsFiltered" array, get relevent keys
+	//and display them
 	var filteredKeys = getFilterTagsKeys();
 	clearLog();
 	displayLinks(filteredKeys);
 	
 	if (filteredKeys.length > 0){
-		// if tag was searched and nothing is found
+		//to solve the edge case for the tag search functionality.
+		// if tag was searched and nothing is found don't created tag tracks
 		createTrackTags();
 	}
 	
@@ -324,6 +401,7 @@ function removeTrackTag(e) {
 		return false;
 	}
 
+	//if user is editing or creating a new link; return
 	var checkFlags = checkEditNewInputFlags();
 	if (typeof checkFlags === "string" && checkFlags !== true) {
 		LINKIFUL.log.innerHTML = checkFlags;
@@ -334,12 +412,13 @@ function removeTrackTag(e) {
 	var trackTagIndex = LINKIFUL.tagsFiltered.indexOf(trackTagName);
 	
 	if (!LINKIFUL.filtered && trackTagIndex === -1) {
-		console.log("some flag or tag-name error"); //remove this later
+		//for debug and stability
+		console.log("some flag or tag-name error");
 	}
 
 	LINKIFUL.tagsFiltered.splice(trackTagIndex, 1);
 	if (LINKIFUL.tagsFiltered.length === 0) {
-		
+		//when the last tag filter is removed
 		if (!LINKIFUL.trackTagsDiv.classList.contains("hidden")) {
 			LINKIFUL.trackTagsDiv.classList.add("hidden");
 		}
@@ -355,6 +434,8 @@ function removeTrackTag(e) {
 
 function sortDateReverse(e) {
 
+	/* this function displays the older links first */
+
 	if (e.button !== 0) {
 		return false;
 	}
@@ -363,11 +444,15 @@ function sortDateReverse(e) {
 	var keys;
 	
 	if (LINKIFUL.filtered) {
+		// only reverse the filtered links
 		keys = getFilterTagsKeys();
 	} else{
+		//all keys
 		keys = Object.keys(LINKIFUL.allLinks);
 	}
 
+	//to toggle the reverse behaviour, we are using the flag "LINKIFUL.reversed" to preserver
+	//the app state
 	if (!LINKIFUL.reversed) {
 		displayLinks(keys.reverse());
 		LINKIFUL.reversed = true;
@@ -393,9 +478,11 @@ function restoreLinks(e) {
 
 	var linkifulJson = prompt("Enter the saved text");
 	if (linkifulJson === null) {
+		//user presses cancel on the prompt
 		return false;
 	}
 	if (linkifulJson === "") {
+		//press "OK" without entering any data; we just use an empty object
 		linkifulJson = JSON.stringify({});
 	}
 
@@ -404,6 +491,7 @@ function restoreLinks(e) {
 	if (confirmRestore) {
 
 		try {
+			//if JSON.parse causes an error, display log and return without touching localStorage
 			var linkifulJsonParsed = JSON.parse(linkifulJson);
 		} catch(e) {
 			LINKIFUL.log.innerHTML = "invalid JSON entered";
@@ -416,6 +504,7 @@ function restoreLinks(e) {
 		displayLinks(LINKIFUL.allLinks);
 
 	} else {
+		//user cancels the confirm
 		return false;
 	}
 }
@@ -441,15 +530,19 @@ function clearStorage(e) {
 
 function flipTheme (e) {
 
+	/* This function handles changing color schemes across the app. Runs on the "theme-contorl"
+	button in the footer */
 	if (e.button !== 0) {
 			return false;
 		}
 
 	var colorQuery, shadeQuery
+
+	//this is intialized in the beginning
 	var currentTheme = LINKIFUL.theme;
 
 	if( currentTheme === "pink") {
-		colorQuery = ".pink";
+		colorQuery = ".pink"; //query strings for the document.QuerySelectorAll
 		shadeQuery = ".light";
 		// swith the active theme for next flip
 		LINKIFUL.theme = "yellow";
@@ -465,9 +558,11 @@ function flipTheme (e) {
 		LINKIFUL.changeTheme.innerHTML = "Use Dark-theme";
 	}
 
+	//select all the elements from the DOM with above classes 
 	var colorElements = document.querySelectorAll(colorQuery);
 	var shadeElements = document.querySelectorAll(shadeQuery);
 
+	//flip classes
 	for (var i = 0, len = colorElements.length; i < len; i += 1) {
 		colorElements[i].classList.toggle("pink");
 		colorElements[i].classList.toggle("yellow");
@@ -512,7 +607,7 @@ function linkSearch (e) {
 		for (var i = 0, len1 = searchStringArr.length; i < len1; i += 1) {
 
 			if (searchStringArr[i] in escapeWords) {
-				console.log("escape word hit");
+				//console.log("escape word hit");
 				continue;
 			}
 
@@ -546,8 +641,18 @@ function updatePlaceholder(e) {
 //************************************ EVENT HANDLER HELPER FUNCTIONS *******************************************//
 
 function displayLinks(ob) {
+
+	/* This function handles all the display functionality of the app
+
+	It can take both an object or an array as its argument to extract keys from it.
+	After extracting the keys it calls "createLinkDiv" for each key which generates the markup
+	*/
+
+	//wipe out everything and display the markup again
 	clearWrapper();
+
 	clearInputFields();
+	updatePlaceholder();
 	
 	var keys;
 	if (Array.isArray(ob)) {
@@ -567,13 +672,21 @@ function displayLinks(ob) {
 		clearLog();
 
 	} else{
-		LINKIFUL.result.innerHTML = "No links (x_x)";
+		var theme = LINKIFUL.theme;
+		var noLinksDiv = document.createElement("div");
+		noLinksDiv.classList.add("no-links");
+		noLinksDiv.classList.add(theme);
+		noLinksDiv.innerHTML =  "<p class='emoticon'>(-_-)</p>" + 
+								"<p>No links</p>";
+
+		LINKIFUL.result.appendChild(noLinksDiv);
 	}
 	
 }
 
 function setupTheme () {
 	
+	//if pink then don't do anything else, since markup is setup already for it
 	if (LINKIFUL.theme === "pink") {
 		LINKIFUL.changeTheme.innerHTML = "Use Dark-theme";
 		return false;
@@ -608,6 +721,10 @@ function getFilterTagsKeys() {
 	var filteredKeys = allKeys.filter(function (v) {
 		
 		var tagsArr = LINKIFUL.allLinks[v].tags.split(",");
+
+		/* here we are using the reverse logic. We set the check to false(hence not including that key)
+		even if it does not has a single tag that is not contained in "LINKIFUL.TagsFiltered" array. 
+		This creates an "AND" like logic for matching filtered tags and not an "OR". */
 		var check = true;
 		
 		for (var i=0; i< LINKIFUL.tagsFiltered.length; i += 1) {
@@ -687,11 +804,13 @@ function clearAllflags() {
 
 function createLinkDiv(key) {
 
+	/* This function generates all the markup for the app. It is called by the "displayLinks" function
+	with the link key string to the link object as an argument */
 	var activeTheme = LINKIFUL.theme;
 	
 	var mainDiv = document.createElement("div");
 	mainDiv.classList.add("link-div")
-	mainDiv.classList.add(activeTheme); // here was pink
+	mainDiv.classList.add(activeTheme); 
 
 	var contentDiv = document.createElement("div");
 	contentDiv.classList.add("content");
@@ -715,6 +834,8 @@ function createLinkDiv(key) {
 	dateSpan.appendChild(document.createTextNode(dateText));
 	dateSpan.addEventListener("mouseup", sortDateReverse, false);
 	
+	//we add the key string as a data-key attribute to the "Delete" and "Edit" buttons
+	//this attribute is then used by the "editLink" and "deleteLink" function.
 	var deleteControl = document.createElement("button");
 	deleteControl.setAttribute("data-key", key);
 	deleteControl.addEventListener("mouseup", deleteLink, false);
@@ -842,4 +963,4 @@ function removeDuplicates(arr) {
     return arr
 }
 
-}());
+}()); // end and run the anonymous wrapper
