@@ -1,15 +1,22 @@
-#linkiful
+# linkiful (^_^)
+> Save, tag, filter, search and backup your links
 
-linkiful is a light weight application that lets you save links which you would like to visit again. You can edit, delete, tag, search, filter, backup and restore your saved links.
+`linkiful` is an application that lets you save links which you would like to visit again. It uses the browser's persistent *local storage* as a mini database to store all the links. You can edit, delete, tag, search, filter, backup and restore your saved links.
 
-It uses the browser's persistent local storage as a mini database to store all the links. Built entirely with JavaScript, it runs nicely in a separate tab. Both the data and the operations is managed by the JS code and hence the app could be used offline.
+## Using linkiful
 
-This repository has the 'offline' version of linkful. Meaning, you can just open the 'linkful.html' from you file storage and start using the app. Download and extract the zip and we are ready to go.
+### Offline Version
+This repository hosts the *offline* version of `linkful`. To use it; simply download the repository as zip and extract it. Then open the `linkful.html` from you file storage to start using the app. This *offline* version always keeps your links on your device. 
 
-An 'online' version of the app, with full backend, is hosted on Google App Engine.
+### linkiful appspot
+An *online* version of `linkiful`, is hosted on [linkiful.appspot.com](http://www.linkiful.appspot.com)
 
-[linkiful](http://www.linkiful.appspot.com)
+The *online* version of `linkiful` provides all the features and functionality provided by the *offline* version. In addition; it also offers the [syncful](http://linkiful.appspot.com/syncful) service which lets you easily backup and restore your links from cloud.
 
-The online version of app is in no way different from the one in this repository. It provides exactly the same features, still uses localStorage and all the operations, still, are managed by JS in browser. What extra is that you get to backup and restore your links from an online server. Visit the [linkiful user guide](http://www.linkiful.appspot.com/tutorial) page for detailed explanation.
+***
 
-Remember, localStorage is scoped by the browser and the document origin. So http://linkiful.appspot.com (or the "file:///your-directory-address/linkiful.html" if you run the 'offline' version from you file storage), just serves as a localStorage scoping hook. 
+Visit `linkiful`'s [tutorial page](http://linkiful.appspot.com/tutorial) for more information.
+
+Happy browsing!
+
+# (^_^)
