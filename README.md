@@ -1,4 +1,4 @@
-# linkiful (^_^)
+# linkiful
 > Save, tag, filter, search and backup your links
 
 `linkiful` is an application that lets you save links which you would like to visit again. It uses the browser's persistent *local storage* as a mini database to store all the links. You can edit, delete, tag, search, filter, backup and restore your saved links.
